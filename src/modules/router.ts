@@ -10,7 +10,7 @@ import driverRouterVueRouter from '@websanova/vue-auth/dist/drivers/router/vue-r
 import axios from 'axios'
 import { Dialog } from 'vant';
 
-axios.defaults.baseURL = "http://realty.test/api"
+axios.defaults.baseURL = "http://realtyv1.test/api"
 axios.defaults.withCredentials = true;
 
 // setup up pages with layouts
