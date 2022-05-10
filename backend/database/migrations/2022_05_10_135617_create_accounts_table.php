@@ -16,18 +16,18 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id;
             $table->unsignedBigInteger('acc_num');
-            $table->string('name')->unique();
-            $table->string('type');
-            $table->smallInteger('level');
-            $table->string('status',10)->nullable();
             $table->unsignedBigInteger('parent_id');
             $table->foreign('parent_id')->references('id')->on('accounts')->onDelete('cascade');
-            $table->float('depit');
-            $table->float('credit');
             $table->morphs('accountable');
+            $table->string('name')->unique();
+            $table->string('type', 20);
+            $table->smallInteger('level');
+            $table->string('status', 10)->default('active');
+            $table->boolean('is_main')->default(0);
+            $table->float('debit')->default(0);
+            $table->float('credit')->default(0);;
             $table->timestamps();
         });
-
     }
 
     /**
