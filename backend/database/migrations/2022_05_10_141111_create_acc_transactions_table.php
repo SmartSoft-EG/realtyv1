@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('acc_transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('date');
-            $table->longText('description');
-            $table->sting('status');
+            $table->string('description');
+            $table->string('status');
             $table->float('value');
-            $table->morphs('transactiontable');
+            $table->morphs('transactionable');
             $table->timestamps();
-
         });
     }
 
