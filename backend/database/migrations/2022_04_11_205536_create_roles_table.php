@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,6 +20,9 @@ return new class extends Migration
             $table->text('permissions');
             $table->timestamps();
         });
+
+        //adding admin role
+        DB::table('roles')->insert(['id' => 1, 'name' => 'admin', 'permissions' => json_encode(['admin'])]);
     }
 
     /**
