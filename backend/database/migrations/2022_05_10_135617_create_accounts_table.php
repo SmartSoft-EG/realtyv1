@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('status', 10)->default('active');
             $table->boolean('is_main')->default(0);
             $table->float('debit')->default(0);
-            $table->float('credit')->default(0);;
+            $table->float('credit')->default(0);
             $table->timestamps();
         });
     }
