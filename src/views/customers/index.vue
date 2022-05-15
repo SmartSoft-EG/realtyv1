@@ -2,14 +2,14 @@
 name: العملاء
 meta:
   auth: true
-  group: admin
+  group: 'admin'
   roles: ['add','edit','delete']
 </route>
 <script setup lang="ts">
 import { useCustomerStore } from '@/stores/customer';
 import { pick } from '@/composables';
-
-const cols = ['id', 'name', 'email', 'telephone']
+const search = ref('')
+const cols = ['id', 'name', 'email', 'telephone', 'options']
 const route = useRoute()
 const columns = computed(() => cols.map((c) => {
     return {
@@ -48,6 +48,12 @@ const data = reactive({
 onMounted(() => {
     stu.fetchCustomers()
 })
+const rules =
+{
+    name: [
+        { required: true, message: 'Please input  name', trigger: 'blur' },
+    ],
+}
 
 function addCustomer() {
     data.customer.id = 0
@@ -60,12 +66,18 @@ function filterData(rows: [], terms: string) {
     return rows.filter(e => reg.test(e.name.toLowerCase()) || reg.test(e.telephone) || reg.test(e.email))
 }
 
-function editUser(customer: any) {
+function editCustomer(customer: any) {
     data.customer = pick(['id', 'name', 'email', 'telephone', 'address', 'job', 'national_id'], customer)
     stu.show_add_dialog = true
 }
 
+function deleteCustomer(id: number) {
+
+    stu.deleteCustomer(id)
+}
+
 function saveCustomer() {
+    //console.log('save')
     stu.saveCustomer(data.customer)
 }
 
@@ -75,40 +87,61 @@ function saveCustomer() {
     <d-page @refresh="stu.fetchCustomers()"><template #tools>
             <v-btn color="success" @click="addCustomer()">Add customer</v-btn>
         </template>
+        <q-table title="Customers" :filter="search" flat :rows="stu.customers" :columns="columns" row-key="id"><template
+                #top-right>
+                <q-input v-model="search" outlined dense type="text"><template #append>
+                        <q-icon name="search"></q-icon>
+                    </template></q-input>
+            </template><template #body-cell-options="props">
+                <td class="flex gap-2">
+                    <v-btn icon="mdi-eye" variant="outlined" density="compact" color="success"
+                        :to="'/customers/' + props.row.id"></v-btn>
+                    <v-btn icon="mdi-pencil" variant="outlined" density="compact" color="primary"
+                        @click="editCustomer(props.row)"></v-btn>
 
-        <!-- <DataTable :value="rows" responsiveLayout="scroll" :paginator="true" :rows="10" س>
+                    <a-popconfirm title="Are you sure delete this customer?" ok-text="Yes" cancel-text="No"
+                        @confirm="deleteCustomer(props.row.id)">
+                        <v-icon size="large" href="#delete">mdi-close</v-icon>
+                    </a-popconfirm>
 
-            <template #header>
-                <InputText v-model="data.search" placeholder="Keyword Search" />
+                </td>
             </template>
-            <Column v-for="col of columns" :field="col.field" :header="col.label" :sortable="true" :key="col.field">
-            </Column>
-            <Column header="job" bodyStyle="text-align: center" header-style="text-align: center">
-                <template #body="slotProps">
-                    <span class=" bg-sky-300 p-2 rounded-md">{{ slotProps.data.job }}</span>
-                </template>
-            </Column>
-            <Column field="options" header="options">
-                <template #body="prop">
-                    <div class="flex gap-2">
-                        <Button icon="pi pi-eye" class="p-button-rounded p-button-info"
-                            @click="$router.push($route.path + '/' + prop.data.id)" />
-                        <Button icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            @click="editUser(prop.data)" />
-                        <Button icon="pi pi-times" class="p-button-rounded p-button-danger"
-                            @click="stu.deleteCustomer(prop.data.id)" />
-                    </div>
-                </template>
-            </Column>
+        </q-table>
+        <!--  d-dialog(v-model="stu.show_add_dialog" @save="saveCustomer()") -->
+        <!--      q-input(v-model="data.customer.name" type="text" label="name") -->
+        <!--      q-input(v-model="data.customer.email" type="text" label="email") -->
+        <!--      q-input(v-model="data.customer.telephone" type="text" label="telephone") -->
+        <!--      q-input(v-model="data.customer.job" type="text" label="job") -->
+        <!--      q-input(v-model="data.customer.address" type="text" label="address") -->
+        <!--      q-input(v-model="data.customer.national_id" type="text" label="national_id") -->
 
-        </DataTable> -->
-        <d-dialog v-model="stu.show_add_dialog" @save="saveCustomer()">
-            <q-input v-model="data.customer.name" type="text" label="name"></q-input>
-            <q-input v-model="data.customer.email" type="text" label="email"></q-input>
-            <q-input v-model="data.customer.telephone" type="text" label="telephone"></q-input>
-            <q-input v-model="data.customer.job" type="text" label="job"></q-input>
-            <q-input v-model="data.customer.address" type="text" label="address"></q-input>
-            <q-input v-model="data.customer.national_id" type="text" label="national_id"></q-input>
-        </d-dialog>
+        <a-dialog v-model="stu.show_add_dialog" @save="saveCustomer()" width="600px" :formData="data.customer"
+            :title="data.customer.id ? 'Edit customer' : 'Add customer'">
+
+            <a-form-item label="name" name="name" focus :rules="{ required: true, message: 'please add name' }">
+                <a-input v-model:value="data.customer.name"></a-input>
+            </a-form-item>
+
+            <a-form-item label="email" name="email"
+                :rules="{ required: true, type: 'email', message: 'please add valid email' }">
+                <a-input v-model:value="data.customer.email"></a-input>
+            </a-form-item>
+
+            <a-form-item label="telephone" name="telephone" :rules="[
+            { required: true, min: 10, message: 'please add valid telephone' },
+            { max: 10, message: 'telephone should be 10 digit' }]">
+                <a-input type="number" v-model:value="data.customer.telephone"></a-input>
+            </a-form-item>
+
+            <a-form-item label="address" name="address" :rules="{ required: true, message: 'please add address' }">
+                <a-input v-model:value="data.customer.address"></a-input>
+            </a-form-item>
+
+            <a-form-item label="job" name="job" :rules="{ required: true, message: 'please add job' }">
+                <a-input type="number" v-model:value="data.customer.job"></a-input>
+            </a-form-item>
+
+
+        </a-dialog>
     </d-page>
 </template>
