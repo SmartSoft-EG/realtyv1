@@ -2,13 +2,12 @@
 name: العملاء
 meta:
   auth: true
-  group: admin
+  group: 'admin'
   roles: ['add','edit','delete']
 </route>
 <script setup lang="ts">
 import { useCustomerStore } from '@/stores/customer';
 import { pick } from '@/composables';
-
 const search = ref('')
 const cols = ['id', 'name', 'account', 'email', 'telephone', 'options']
 const route = useRoute()
@@ -49,6 +48,12 @@ const data = reactive({
 onMounted(() => {
     stu.fetchCustomers()
 })
+const rules =
+{
+    name: [
+        { required: true, message: 'Please input  name', trigger: 'blur' },
+    ],
+}
 
 function addCustomer() {
     data.customer.id = 0
@@ -61,12 +66,18 @@ function filterData(rows: [], terms: string) {
     return rows.filter(e => reg.test(e.name.toLowerCase()) || reg.test(e.telephone) || reg.test(e.email))
 }
 
-function editUser(customer: any) {
+function editCustomer(customer: any) {
     data.customer = pick(['id', 'name', 'email', 'telephone', 'address', 'job', 'national_id'], customer)
     stu.show_add_dialog = true
 }
 
+function deleteCustomer(id: number) {
+
+    stu.deleteCustomer(id)
+}
+
 function saveCustomer() {
+    //console.log('save')
     stu.saveCustomer(data.customer)
 }
 
@@ -76,15 +87,6 @@ function saveCustomer() {
     <d-page @refresh="stu.fetchCustomers()"><template #tools>
             <v-btn color="success" @click="addCustomer()">Add customer</v-btn>
         </template>
-
-        <d-dialog v-model="stu.show_add_dialog" @save="saveCustomer()">
-            <q-input v-model="data.customer.name" type="text" label="name"></q-input>
-            <q-input v-model="data.customer.email" type="text" label="email"></q-input>
-            <q-input v-model="data.customer.telephone" type="text" label="telephone"></q-input>
-            <q-input v-model="data.customer.job" type="text" label="job"></q-input>
-            <q-input v-model="data.customer.address" type="text" label="address"></q-input>
-            <q-input v-model="data.customer.national_id" type="text" label="national_id"></q-input>
-        </d-dialog>
         <q-table title="Customers" :filter="search" flat :rows="stu.customers" :columns="columns" row-key="id"><template
                 #top-right>
                 <q-input v-model="search" outlined dense type="text"><template #append>

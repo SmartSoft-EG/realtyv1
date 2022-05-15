@@ -3,9 +3,10 @@
 const props = defineProps({
     modelValue: Boolean,
     title: String,
-    form_data: Object
+    formData: Object,
+    rules: Array
 })
-
+const frm = ref(null)
 const emit = defineEmits(['update:modelValue', 'save'])
 
 const model = computed({
@@ -18,17 +19,18 @@ const model = computed({
     },
 })
 function save() {
-    emit('save')
+    frm.value.validate().then(() => emit('save'))
+    //if (frm.value.validate()) emit('save')
 }
 const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    //console.log('Failed:', errorInfo);
 };
 </script>
 
 <template>
-    <a-modal v-model:visible="model" :title="title" :cancel-button-props="{ disabled: true }">
-        <a-form style="width: 100%;" :model="form_data" name="basic" :label-col="{ span: 8 }" autocomplete="off"
-            @finish="save" @finishFailed="onFinishFailed">
+    <a-modal v-model:visible="model" :title="title" @ok="save">
+        <a-form :rules="rules" @keyup.enter="save" ref="frm" style="width: 100%;" :model="formData" layout="vertical"
+            name="basic" autocomplete="off" @submit="save" @finishFailed="onFinishFailed">
             <slot></slot>
         </a-form>
     </a-modal>
