@@ -40,7 +40,7 @@ export const useCustomerStore = defineStore(
 
             },
             deleteCustomer(id: number) {
-                // if (!confirm('are you sure to delete this item?')) return
+
                 axios.delete('customer/' + id).then(() => {
                     this.customers = this.customers.filter(s => s['id'] !== id)
                 })
