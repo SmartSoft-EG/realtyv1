@@ -9,7 +9,7 @@ meta:
 import { useCustomerStore } from '@/stores/customer';
 import { pick } from '@/composables';
 const search = ref('')
-const cols = ['id', 'name', 'email', 'telephone', 'options']
+const cols = ['id', 'name', 'account', 'email', 'telephone', 'options']
 const route = useRoute()
 const columns = computed(() => cols.map((c) => {
     return {
@@ -91,8 +91,19 @@ function saveCustomer() {
                 #top-right>
                 <q-input v-model="search" outlined dense type="text"><template #append>
                         <q-icon name="search"></q-icon>
-                    </template></q-input>
-            </template><template #body-cell-options="props">
+                    </template>
+                </q-input>
+
+
+            </template>
+
+            <template #body-cell-account="props">
+                <td class="flex gap-2">
+                    {{ props.row.account.id }}
+
+                </td>
+            </template>
+            <template #body-cell-options="props">
                 <td class="flex gap-2">
                     <v-btn icon="mdi-eye" variant="outlined" density="compact" color="success"
                         :to="'/customers/' + props.row.id"></v-btn>
@@ -117,7 +128,6 @@ function saveCustomer() {
 
         <a-dialog v-model="stu.show_add_dialog" @save="saveCustomer()" width="600px" :formData="data.customer"
             :title="data.customer.id ? 'Edit customer' : 'Add customer'">
-
             <a-form-item label="name" name="name" focus :rules="{ required: true, message: 'please add name' }">
                 <a-input v-model:value="data.customer.name"></a-input>
             </a-form-item>
@@ -138,10 +148,8 @@ function saveCustomer() {
             </a-form-item>
 
             <a-form-item label="job" name="job" :rules="{ required: true, message: 'please add job' }">
-                <a-input type="number" v-model:value="data.customer.job"></a-input>
+                <a-textarea v-model:value="data.customer.job"></a-textarea>
             </a-form-item>
-
-
         </a-dialog>
     </d-page>
 </template>
