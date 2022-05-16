@@ -12,6 +12,11 @@ class RealtyOwner extends Model
 
     public function account()
     {
-        return $this->morphOne('App\Models\Account', 'accountable');
+        return $this->morphOne(Account::class, 'accountable');
+    }
+
+    public function realty()
+    {
+        return $this->hasMany(Realty::class);
     }
 }

@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('realty_owners', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->morphs('ownerable');
+            $table->string('name');
             $table->string('telephone')->nullable();
             $table->string('address')->nullable();
             $table->string('national_id')->nullable();
