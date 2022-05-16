@@ -5,6 +5,7 @@
 /backend/storage/*.key
 /backend/vendor
 /frontend/node_modules
+/src/*.d.ts
 .env
 .env.backup
 .phpunit.result.cache
@@ -40,5 +41,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-*.d.ts
+
 
