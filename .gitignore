@@ -6,6 +6,7 @@
 /backend/vendor
 /frontend/node_modules
 /src/*.d.ts
+/src/components.d.ts
 .env
 .env.backup
 .phpunit.result.cache
