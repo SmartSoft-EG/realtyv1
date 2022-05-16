@@ -40,5 +40,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-.d.ts
+*.d.ts
 
