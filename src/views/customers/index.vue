@@ -98,9 +98,9 @@ function saveCustomer() {
             </template>
 
             <template #body-cell-account="props">
-                <td class="flex gap-2">
-                    {{ props.row.account.id }}
+                <td>
 
+                    <a-tag color="orange"> {{ props.row.account ? props.row.account.id : '' }}</a-tag>
                 </td>
             </template>
             <template #body-cell-options="props">
