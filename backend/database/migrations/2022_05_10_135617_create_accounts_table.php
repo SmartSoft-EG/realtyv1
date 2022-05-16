@@ -24,8 +24,11 @@ return new class extends Migration
             $table->smallInteger('level')->default(1);
             $table->string('status', 10)->default('active');
             $table->boolean('is_main')->default(0);
+            $table->string('debit_or_credit')->nullable();
             $table->float('debit')->default(0);
             $table->float('credit')->default(0);
+            $table->float('balance')->default(0);
+            $table->string('balance_type', 20)->default('debit');
             $table->timestamps();
         });
         //add root element for accounts

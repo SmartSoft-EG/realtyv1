@@ -22,6 +22,8 @@ return new class extends Migration
             $table->float('debit')->default(0);
             $table->float('credit')->default(0);
             $table->float('balance')->default(0);
+            $table->string('balance_type', 20)->default('debit');
+
             $table->timestamps();
         });
     }

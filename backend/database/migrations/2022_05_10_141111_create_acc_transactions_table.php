@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('date');
             $table->string('description');
-            $table->string('status');
-            $table->float('value');
-            $table->morphs('transactionable');
+            $table->string('status')->nullable('performed');
+            $table->float('value')->nullable(0);
+            $table->nullableMorphs('transactionable');
             $table->timestamps();
         });
     }
