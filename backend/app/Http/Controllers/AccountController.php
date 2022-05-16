@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Account;
 use Illuminate\Http\Request;
 
@@ -8,7 +9,7 @@ class AccountController extends Controller
 {
     public function index()
     {
-        return Account::orderBy('updated_at', 'desc')->get();
+        return Account::all();
     }
 
     /*
@@ -45,7 +46,7 @@ class AccountController extends Controller
 
     public function show(Account $account)
     {
-        return $account;
+        return $account->load('transactions');
     }
 
     public function update(Account $account)

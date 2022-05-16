@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustoemrController;
 use App\Http\Controllers\CustomerController;
@@ -49,4 +50,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('realty-unit', RealtyUnitController::class);
     Route::apiResource('realty-unit-reservation', RealtyUnitReservationController::class);
     Route::apiResource('customer', CustomerController::class);
+    Route::apiResource('account', AccountController::class);
 });
