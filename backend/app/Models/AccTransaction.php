@@ -14,4 +14,9 @@ class AccTransaction extends Model
     {
         return $this->morphTo();
     }
+
+    public function items()
+    {
+        return $this->hasMany('App\Models\AccTransDetail');
+    }
 }
