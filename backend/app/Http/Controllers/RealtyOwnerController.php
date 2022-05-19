@@ -11,7 +11,7 @@ class RealtyOwnerController extends Controller
 
     public function index()
     {
-        return RealtyOwner::latest()->get();
+        return RealtyOwner::latest()->with('account')->get();
     }
 
 
@@ -20,7 +20,7 @@ class RealtyOwnerController extends Controller
         $realtyOwner = RealtyOwner::create(request(['name', 'address',  'telephone', 'job']));
 
         $account_id = Account::where('parent_id', 1126)->max('id'); //banks parent account
-        if (!$account_id) $account_id = 112701;
+        if (!$account_id) $account_id = 112601;
         else  $account_id++;
         $realtyOwner->account()->create(['id' => $account_id, 'parent_id' => 1126, 'name' => 'realtyOwner: ' . $realtyOwner->name, 'is_main' => 0, 'debit_or_credit' => 'credit']);
         return $realtyOwner->load('account');
@@ -33,16 +33,16 @@ class RealtyOwnerController extends Controller
         return $owner->load('account');
     }
 
-    public function update(RealtyOwner $realtyOwner)
+    public function update(RealtyOwner $owner)
     {
-        $realtyOwner->update(request(['name', 'address', 'email', 'telephone', 'national_id']));
+        $owner->update(request(['name', 'address', 'email', 'telephone', 'national_id']));
 
         return response()->json(['success' => 'realtyOwner was updated'], 202);
     }
 
-    public function destroy(RealtyOwner $realtyOwner)
+    public function destroy(RealtyOwner $owner)
     {
-        $realtyOwner->delete();
+        $owner->delete();
         return response()->json(['success' => 'Realty Owner was deleted'], 202);
     }
 }
