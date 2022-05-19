@@ -27,8 +27,10 @@ class RealtyOwnerController extends Controller
     }
 
 
-    public function show(RealtyOwner $realtyOwner)
+    public function show(RealtyOwner $owner)
+
     {
+        return $owner->load('account');
     }
 
     public function update(RealtyOwner $realtyOwner)
