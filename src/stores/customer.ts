@@ -5,7 +5,7 @@ export const useCustomerStore = defineStore(
     {
         id: 'customer',
         state: () => ({
-            customers: [],
+            list: [],
             show_add_dialog: false,
         }),
 
@@ -16,7 +16,7 @@ export const useCustomerStore = defineStore(
         actions: {
             fetchCustomers() {
                 axios.get('customer').then((res) => {
-                    this.customers = res.data
+                    this.list = res.data
                 })
             },
 
@@ -24,8 +24,8 @@ export const useCustomerStore = defineStore(
                 //update
                 if (customer.id !== 0) {
                     axios.put(`customer/${customer.id}`, customer).then((res) => {
-                        this.customers = this.customers.filter((u: any) => u.id !== customer.id) //remove old row
-                        this.customers.unshift(customer) //prepend add new row
+                        this.list = this.list.filter((u: any) => u.id !== customer.id) //remove old row
+                        this.list.unshift(customer) //prepend add new row
                         this.show_add_dialog = false
                     })
                 }
@@ -33,7 +33,7 @@ export const useCustomerStore = defineStore(
                 //create
                 else {
                     axios.post('customer', customer).then((res) => {
-                        this.customers.push(res.data)
+                        this.list.push(res.data)
                         this.show_add_dialog = false
                     })
                 }
@@ -42,7 +42,7 @@ export const useCustomerStore = defineStore(
             deleteCustomer(id: number) {
 
                 axios.delete('customer/' + id).then(() => {
-                    this.customers = this.customers.filter(s => s['id'] !== id)
+                    this.list = this.list.filter(s => s['id'] !== id)
                 })
             },
         },

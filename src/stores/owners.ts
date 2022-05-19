@@ -5,7 +5,7 @@ export const useOwnerStore = defineStore(
     {
         id: 'owner',
         state: () => ({
-            owners: [],
+            list: [],
             show_add_dialog: false,
         }),
 
@@ -16,7 +16,7 @@ export const useOwnerStore = defineStore(
         actions: {
             fetch() {
                 axios.get('owner').then((res) => {
-                    this.owners = res.data
+                    this.list = res.data
                 })
             },
 
@@ -24,8 +24,8 @@ export const useOwnerStore = defineStore(
                 //update
                 if (owner.id !== 0) {
                     axios.put(`owner/${owner.id}`, owner).then((res) => {
-                        this.owners = this.owners.filter((u: any) => u.id !== owner.id) //remove old row
-                        this.owners.unshift(owner) //prepend add new row
+                        this.list = this.list.filter((u: any) => u.id !== owner.id) //remove old row
+                        this.list.unshift(owner) //prepend add new row
                         this.show_add_dialog = false
                     })
                 }
@@ -33,7 +33,7 @@ export const useOwnerStore = defineStore(
                 //create
                 else {
                     axios.post('owner', owner).then((res) => {
-                        this.owners.push(res.data)
+                        this.list.push(res.data)
                         this.show_add_dialog = false
                     })
                 }
@@ -42,7 +42,7 @@ export const useOwnerStore = defineStore(
             delete(id: number) {
 
                 axios.delete('owner/' + id).then(() => {
-                    this.owners = this.owners.filter(s => s['id'] !== id)
+                    this.list = this.list.filter(s => s['id'] !== id)
                 })
             },
         },
