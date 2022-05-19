@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('realty', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('owner_id');
-            $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('realty_owners')->onDelete('cascade');
             $table->string('code');
             $table->string('name');
             $table->string('description');
