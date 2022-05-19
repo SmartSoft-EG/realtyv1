@@ -11,24 +11,22 @@ import AutoImport from 'unplugin-auto-import/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import {
   QuasarResolver,
-  // VuetifyResolver,
-  PrimeVueResolver,
-  AntDesignVueResolver,
-  VantResolver
+
+  ElementPlusResolver
 
 
 } from 'unplugin-vue-components/resolvers'
 
 import pugPlugin from 'vite-plugin-pug'
-import { createStyleImportPlugin, AntdResolve, VantResolve } from 'vite-plugin-style-import';
+//import { createStyleImportPlugin, AntdResolve, VantResolve } from 'vite-plugin-style-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    createStyleImportPlugin({
-      resolves: [AntdResolve(), VantResolve()],
-    }),
+    // createStyleImportPlugin({
+    //   resolves: [AntdResolve(), VantResolve()],
+    // }),
     Pages({
       pagesDir: 'src/views',
       extensions: ['vue', 'ts'],
@@ -39,13 +37,15 @@ export default defineConfig({
       defaultLayout: 'default'
     }),
     Components({
-      resolvers: [AntDesignVueResolver(), QuasarResolver(), VantResolver()],
+      resolvers: [QuasarResolver(), ElementPlusResolver()],
       // allow auto load markdown components under `./src/components/`
       extensions: ["vue", "md"],
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: "src/components.d.ts",
     }),
+
+
 
     AutoImport({
       imports: [
