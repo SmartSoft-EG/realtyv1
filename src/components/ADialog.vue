@@ -1,12 +1,14 @@
 <!-- BaseInput.vue component -->
 <script setup lang="ts">
+import type { FormInstance } from 'element-plus'
+
 const props = defineProps({
     modelValue: Boolean,
     title: String,
     formData: Object,
     rules: Array
 })
-const frm = ref(null)
+const formRef = ref(null)
 const emit = defineEmits(['update:modelValue', 'save'])
 
 const model = computed({
@@ -18,21 +20,40 @@ const model = computed({
         return emit('update:modelValue', value)
     },
 })
-function save() {
-    frm.value.validate().then(() => emit('save'))
-    //if (frm.value.validate()) emit('save')
+
+
+const save = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.validate((valid) => {
+        if (valid) {
+            emit('save')
+        } else {
+            console.log('error submit!')
+            return false
+        }
+    })
 }
-const onFinishFailed = (errorInfo: any) => {
-    //console.log('Failed:', errorInfo);
-};
+
 </script>
 
 <template>
-    <a-modal v-model:visible="model" :title="title" @ok="save">
-        <a-form :rules="rules" @keyup.enter="save" ref="frm" style="width: 100%;" :model="formData" layout="vertical"
-            name="basic" autocomplete="off" @submit="save" @finishFailed="onFinishFailed">
+    <el-dialog v-model="model" :title="title" custom-class="elc" width="1000">
+        <el-form label-position="top" :model="formData" :rules="rules" @keyup.enter="save" ref="formRef">
             <slot></slot>
-        </a-form>
-    </a-modal>
+        </el-form>
+
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="model = false">Cancel</el-button>
+                <el-button type="primary" @click="save(formRef)">Confirm</el-button>
+            </span>
+        </template>
+    </el-dialog>
 
 </template>
+
+<style>
+.elc {
+    max-width: 800px;
+}
+</style>

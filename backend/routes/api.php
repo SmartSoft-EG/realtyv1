@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccTransDetailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustoemrController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocController;
 use App\Http\Controllers\RealtyController;
+use App\Http\Controllers\RealtyOwnerController;
 use App\Http\Controllers\RealtyUnitController;
 use App\Http\Controllers\RealtyUnitReservationController;
 use App\Http\Controllers\RoleController;
@@ -46,9 +48,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('user', AuthController::class);
     Route::apiResource('role', RoleController::class);
+    Route::apiResource('account', AccountController::class);
     Route::apiResource('realty', RealtyController::class);
     Route::apiResource('realty-unit', RealtyUnitController::class);
     Route::apiResource('realty-unit-reservation', RealtyUnitReservationController::class);
     Route::apiResource('customer', CustomerController::class);
-    Route::apiResource('account', AccountController::class);
+    Route::apiResource('owner', RealtyOwnerController::class);
+    Route::apiResource('acc-trans-detail', AccTransDetailController::class);
 });

@@ -17,19 +17,18 @@ class RealtyOwnerController extends Controller
 
     public function store()
     {
-        $realtyOwner = RealtyOwner::create(request(['name', 'address', 'email', 'telephone', 'national_id']));
+        $realtyOwner = RealtyOwner::create(request(['name', 'address',  'telephone', 'job']));
 
-        // $max = Account::where('parent_id', 11)->max('id');
-        // if (!$max) $max = 112701;
-        // else  $max++;
-        // $realtyOwner->account()->create(['id' => $max, 'parent_id' => 11, 'name' => 'realtyOwner: ' . $realtyOwner->name, 'is_main' => 0, 'debit_or_credit' => 'credit']);
-        // return $realtyOwner->load('account');
+        $account_id = Account::where('parent_id', 1126)->max('id'); //banks parent account
+        if (!$account_id) $account_id = 112701;
+        else  $account_id++;
+        $realtyOwner->account()->create(['id' => $account_id, 'parent_id' => 1126, 'name' => 'realtyOwner: ' . $realtyOwner->name, 'is_main' => 0, 'debit_or_credit' => 'credit']);
+        return $realtyOwner->load('account');
     }
 
 
     public function show(RealtyOwner $realtyOwner)
     {
-
     }
 
     public function update(RealtyOwner $realtyOwner)
