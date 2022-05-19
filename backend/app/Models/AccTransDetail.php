@@ -72,6 +72,6 @@ class AccTransDetail extends Model
 
     public function transaction()
     {
-        return $this->belongsTo(AccTransaction::class);
+        return $this->belongsTo(AccTransaction::class, 'acc_transaction_id');
     }
 }

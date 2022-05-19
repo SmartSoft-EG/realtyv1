@@ -29,19 +29,18 @@ class AccountController extends Controller
 
     public function store()
     {
+        $id = Account::where('parent_id', request()->parent_id)->max('id');
+        if (!$id) $id = (int)request()->parent_id . 01;
+        else  $id++;
         return Account::create(request([
-            'acc_num',
             'parent_id',
-            'accountable',
             'name',
             'type',
-            'level',
             'status',
-            'active',
             'is_main',
-            'debit',
-            'credit'
-        ]));
+            'debit_or_credit',
+            'balance_type',
+        ] + ['id' => $id]));
     }
 
     public function show(Account $account)
