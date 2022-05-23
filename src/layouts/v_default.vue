@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useAuth } from '@websanova/vue-auth'
 import nestedGroupby from 'nested-groupby'
-import { useQuasar } from 'quasar';
 
 import axios from 'axios'
 import routes from '~pages'
 import { useNotifyStore } from '@/stores/notification'
-const q = useQuasar()
 const $auth = useAuth()
 const notify = useNotifyStore()
 const isDrawerOpen = ref<Boolean>(null)
@@ -14,7 +12,6 @@ const visible_routes = computed(() => routes.filter(r => (r.meta && !r.meta.hide
 const public_routes = computed(() => visible_routes.value.filter(r => !r.meta || (r.meta && !r.meta.auth)))
 const auth_routes = computed(() => visible_routes.value.filter(r => (r.meta && r.meta.auth == true) || (r.meta && r.meta.auth && $auth.check(r.meta.auth.roles))))
 const grouped_auth_routes = computed(() => nestedGroupby(auth_routes.value, ['meta.group']))
-const rtl = ref(false)
 
 onMounted(() => {
     const lang: string[] = []
@@ -57,89 +54,58 @@ function logout() {
         $auth.logout()
     })
 }
-function changeLocal() {
-    rtl.value = !rtl.value
-    q.lang.rtl = rtl.value
-}
 </script>
 
 <template>
-    <q-layout view="lhr LPR fFf'" :dir="rtl ? 'rtl' : 'ltr'">
+    <v-app>
+        <v-app-bar class="bg-grey" :priority="1" flat app height="60" clipped-left>
+            <v-app-bar-nav-icon @click="isDrawerOpen = !isDrawerOpen" />
+            <v-toolbar-title>Africa Health ExoCon 2022</v-toolbar-title>
+            <v-spacer />
+            <!--<q-btn @click="$auth.logout()">logout</q-btn>
+<q-btn @click="$vuetify.rtl = true">rtl</q-btn> -->
+            <!-- v-progress-linear(v-show="notify.loading" :indeterminate="true" height="3" bottom absolute color="primary") -->
+            <v-progress-circular v-show="notify.loading" :indeterminate="true" color="white" />
+        </v-app-bar>
 
-        <q-header class="bg-primary text-white text-left" flat>
-            <q-toolbar class="h-16 bg-sky-200">
-                <q-btn dense flat round icon="menu" @click="isDrawerOpen = !isDrawerOpen" />
-
-                <q-toolbar-title>
-                    Realty control
-                </q-toolbar-title>
-
-                <q-space />
-                <q-btn dense round :label="rtl ? 'E' : 'ع'" @click="changeLocal()" />
-
-            </q-toolbar>
-            <q-ajax-bar v-show="notify.loading" position="top" size="4px" color="red" skip-hijack />
-        </q-header>
-
-        <q-drawer show-if-above v-model="isDrawerOpen" :dir="rtl ? 'rtl' : 'ltr'" class="bg-sky-100">
-            <!-- drawer content -->
-
-            <div v-if="$auth.check()" class="px-1  flex items-center    bg-sky-500 text-white h-16">
-                <q-avatar size="20">
+        <v-navigation-drawer class="bg-sky-50" v-model="isDrawerOpen" app flat :right="$vuetify.rtl">
+            <div v-if="$auth.check()" class="px-1 flex align-center bg-sky-200 white-text h-15">
+                <v-avatar size="20">
                     <img :src="$storage + $auth.user().img" alt>
-                </q-avatar>
+                </v-avatar>
 
                 <h5 class="text-center ma-2 white--text">
                     {{ $auth.user().name.split(/(\s).+\s/).join("") }}
                 </h5>
-                <div class="flex-1" />
-                <q-btn icon="mdi-power" round size="sm" @click="logout()" />
+
+                <v-spacer />
+                <q-btn icon="mdi-power" density="compact" @click="logout()" />
             </div>
-
-            <q-list>
-                <template v-if="$auth.check()">
+            <v-list class="bg-sky-50" nav density="compact">
+                <!-- auth routes --><template v-if="$auth.check()">
                     <template v-for="(group, name) in grouped_auth_routes" :key="name">
-
-                        <q-item-label header> {{ name }}</q-item-label>
-
-
-                        <q-item clickable v-for="(route, i) in group" :key="route.path" active-class="active-class"
-                            :to="route.path">
-
-                            <q-item-section avatar top>
-                                <q-avatar icon="folder" color="primary" text-color="white" />
-                            </q-item-section>
-
-                            <q-item-section>
-                                <q-item-label> {{ route.name }}</q-item-label>
-                            </q-item-section>
-
-                        </q-item>
+                        <v-list-subheader class="blue" style="color: blue;">
+                            {{ name }}
+                        </v-list-subheader>
+                        <v-list-item v-for="(route, i) in group" :key="route.path" class="ml-3" :to="route.path">
+                            <v-list-item-title>{{ route.name }}</v-list-item-title>
+                        </v-list-item>
+                        <v-divider />
                     </template>
                 </template>
-            </q-list>
-
-
-
-            <!-- <v-list-subheader>Genral</v-list-subheader>
-          
-            <template v-for="r2 in public_routes" :key="r2.path">
-                <v-list-item :to="r2.path">
-                    <v-list-item-title>{{ r2.name }}</v-list-item-title>
-                </v-list-item>
-            </template> -->
-
-
-
-        </q-drawer>
-
-
-        <q-page-container>
-            <router-view> </router-view>
-        </q-page-container>
-
-
-        <!--  v-footer.px-0.py-3.bg-light-400(height="400") -->
+                <v-list-subheader>Genral</v-list-subheader><!-- public routes --><template v-for="r2 in public_routes"
+                    :key="r2.path">
+                    <v-list-item :to="r2.path">
+                        <v-list-item-title>{{ r2.name }}</v-list-item-title>
+                    </v-list-item>
+                </template>
+            </v-list>
+        </v-navigation-drawer>
+        <v-main class="h-auto">
+            <v-container fluid>
+                <router-view />
+            </v-container>
+        </v-main><!--  v-footer.px-0.py-3.bg-light-400(height="400") -->
         <!--      .boxed-container.w-full.bg-light-500 -->
         <!--          .mx-6.d-flex.align-center.gap-2 -->
         <!--              span © 2022 44 -->
@@ -156,35 +122,26 @@ function changeLocal() {
         <!--                      | Blog -->
         <!--                  a.text--secondary.text-decoration-none(href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free/blob/main/LICENSE" target="_blank") -->
         <!--                      | MIT Licence -->
-
-
-        <!-- <v-snackbar v-model="notify.show" text top :color="notify.color">
+        <v-snackbar v-model="notify.show" text top :color="notify.color">
             {{ notify.text }}<template #action="{ attrs }">
                 <q-btn color="pink" text v-bind="attrs" @click="notify.show = false">
                     Close
                 </q-btn>
             </template>
-        </v-snackbar> -->
-    </q-layout>
+        </v-snackbar>
+    </v-app>
 </template>
 
-<style lang="scss">
-[dir="rtl"] .q-drawer--left {
-    right: 0;
-    left: auto;
+<style lang="scss" scoped>
+.v-list-item--active {
+    border-left: solid 8px blue;
+
+    // background-color: rgb(241, 241, 241);
 }
 
-[dir="ltr"] .q-drawer--left {
-    left: auto;
-}
+.v-list-item--active i {
+    color: blue !important;
 
-.active-class {
-    color: rgb(253, 253, 253);
-    background-color: rgb(5, 79, 79);
-    font-weight: bold;
-}
-
-.active-class i {
-    color: rgb(255, 255, 255);
+    // background-color: rgb(241, 241, 241);
 }
 </style>

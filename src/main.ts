@@ -9,7 +9,7 @@ import { Locale } from 'vant';
 import enUS from 'vant/es/locale/lang/en-US';
 
 Locale.use('en-US', enUS);
-app.config.globalProperties.$storage = import.meta.env.DEV ? 'http://realty.test/storage/' : ''
+app.config.globalProperties.$storage = import.meta.env.DEV ? 'http://realtyv1.test/storage/' : ''
 
 Object.values(import.meta.globEager('/src/modules/*.ts')).forEach((module) => module.install?.(app))
 
