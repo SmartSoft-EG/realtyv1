@@ -20,4 +20,9 @@ class RealtyUnit extends Model
     {
         return $this->morphMany(Doc::class, 'docable');
     }
+
+    public function owners()
+    {
+        return $this->belongsToMany(Owner::class, 'realty_units_owners');
+    }
 }

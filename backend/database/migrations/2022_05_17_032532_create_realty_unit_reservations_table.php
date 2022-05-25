@@ -22,11 +22,12 @@ return new class extends Migration
             $table->date('end_date');
             $table->float('price');
             $table->float('total_price');
+            $table->float('commission')->default(0);
             $table->string('state', 40)->default('active');
-            $table->timestamps();
             $table->foreign('realty_unit_id')->references('id')->on('realty_units')->onDelete('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

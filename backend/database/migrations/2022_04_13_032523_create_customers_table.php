@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('national_id')->nullable();
             $table->String('job')->nullable();
+            $table->float('balance')->default(0);
+            $table->string('balance_type', 20)->default('debit');
+
             $table->timestamps();
         });
     }

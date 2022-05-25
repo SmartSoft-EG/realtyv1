@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RealtyOwner extends Model
+class Owner extends Model
 {
     use HasFactory;
     protected $guarded = [];
@@ -15,8 +15,9 @@ class RealtyOwner extends Model
         return $this->morphOne(Account::class, 'accountable');
     }
 
-    public function realty()
+
+    public function units()
     {
-        return $this->hasMany(Realty::class);
+        return $this->belongsToMany(RealtyUnit::class, 'realty_units_owners');
     }
 }

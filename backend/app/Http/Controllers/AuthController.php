@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccTransaction;
 use App\Models\User as ModelsUser;
 use App\Notifications\Note;
 use App\Models\User;
@@ -115,5 +116,11 @@ class AuthController extends Controller
         // } else {
         //     return response()->json(['error' => 'incorrect serial'], 404);
         // }
+    }
+
+    public function test()
+    {
+        $tr = AccTransaction::create(['description' => 'test', 'user_id' => Auth::user()->id, 'date' => '2022-02-01', 'status' => 'active', 'value' => request()->balance]);
+        $tr->items()->create(['account_id' => request()->account_id, request()->type => request()->balance]);
     }
 }

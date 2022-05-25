@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RealtyOwner;
+use App\Models\Owner;
 use App\Models\Account;
 // use Illuminate\Http\Request;
 
-class RealtyOwnerController extends Controller
+class OwnerController extends Controller
 {
 
     public function index()
     {
-        return RealtyOwner::latest()->with('account')->get();
+        return Owner::latest()->with('account')->get();
     }
 
 
     public function store()
     {
-        $realtyOwner = RealtyOwner::create(request(['name', 'address',  'telephone', 'job']));
+        $realtyOwner = Owner::create(request(['name', 'address',  'telephone', 'job']));
 
         $account_id = Account::where('parent_id', 1126)->max('id'); //banks parent account
         if (!$account_id) $account_id = 112601;
@@ -27,20 +27,20 @@ class RealtyOwnerController extends Controller
     }
 
 
-    public function show(RealtyOwner $owner)
+    public function show(Owner $owner)
 
     {
         return $owner->load('account');
     }
 
-    public function update(RealtyOwner $owner)
+    public function update(Owner $owner)
     {
         $owner->update(request(['name', 'address', 'email', 'telephone', 'national_id']));
 
         return response()->json(['success' => 'realtyOwner was updated'], 202);
     }
 
-    public function destroy(RealtyOwner $owner)
+    public function destroy(Owner $owner)
     {
         $owner->delete();
         return response()->json(['success' => 'Realty Owner was deleted'], 202);

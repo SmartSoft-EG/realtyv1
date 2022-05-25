@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('comment')->nullable();
             $table->string('type')->nullable();
-            $table->morphs('commentable');
+            $table->nullableMorphs('commentable');
             $table->timestamps();
         });
     }

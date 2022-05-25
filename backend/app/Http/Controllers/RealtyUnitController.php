@@ -14,7 +14,12 @@ class RealtyUnitController extends Controller
 
     public function store()
     {
+        //return request();
         $realty_unit = RealtyUnit::create(request(['name', 'realty_id', 'floor', 'code', 'type',  'description']));
+        //add owners
+        foreach (request()->owners as $owner) {
+            $realty_unit->owners()->attach($owner['id'], ['percent' => $owner['percent']]);
+        }
         if (request()->imgs && is_array(request()->imgs)) {
             foreach (request()->imgs as $img) {
                 $path = $img->store('docs/realty', ['disk' => 'public']);
@@ -22,7 +27,7 @@ class RealtyUnitController extends Controller
             }
         }
 
-        return $realty_unit;
+        return $realty_unit->load('owners');
     }
 
     public function show(RealtyUnit $realty_unit)

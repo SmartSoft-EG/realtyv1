@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('realty_owners', function (Blueprint $table) {
+        Schema::create('owners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('telephone')->nullable();
             $table->string('address')->nullable();
+            $table->string('job')->nullable();
             $table->string('national_id')->nullable();
+            $table->float('balance')->default(0);
+            $table->string('balance_type', 20)->default('debit');
             $table->timestamps();
         });
     }

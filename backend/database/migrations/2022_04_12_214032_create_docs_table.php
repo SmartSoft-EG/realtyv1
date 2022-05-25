@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('type')->nullable();
             $table->string('path');
-            $table->morphs('docable');
+            $table->nullableMorphs('docable');
             $table->timestamps();
         });
     }

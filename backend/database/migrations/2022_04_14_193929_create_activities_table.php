@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->String('name');
-            $table->morphs('activable');
+            $table->nullableMorphs('activable');
             $table->String('state', 40)->nullable();
             $table->text('data');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
