@@ -5,6 +5,16 @@ export interface Doc {
     name?: string,
     type?: string
 }
+export interface Reservation {
+    id: number,
+    user_id?: number,
+    customer_id?: number,
+    realty_unit_id?: number,
+    start_date?: Date,
+    end_date?: Date,
+    price?: number,
+    state?: 'active' | 'closed' | 'waiting' | undefined,
+}
 
 export interface RealtyUnit {
     id: number,
@@ -15,7 +25,9 @@ export interface RealtyUnit {
     description?: string,
     floor?: number,
     docs?: Doc[],
-    realty?: Realty
+    realty?: Realty,
+    reservations?: Reservation
+
 }
 
 

@@ -2,10 +2,12 @@
 import { useAuth } from '@websanova/vue-auth'
 import nestedGroupby from 'nested-groupby'
 import { useQuasar } from 'quasar';
+import { useI18n } from 'vue-i18n'
 
 import axios from 'axios'
 import routes from '~pages'
 import { useNotifyStore } from '@/stores/notification'
+import { json } from 'stream/consumers';
 const q = useQuasar()
 const $auth = useAuth()
 const notify = useNotifyStore()
@@ -15,8 +17,12 @@ const public_routes = computed(() => visible_routes.value.filter(r => !r.meta ||
 const auth_routes = computed(() => visible_routes.value.filter(r => (r.meta && r.meta.auth == true) || (r.meta && r.meta.auth && $auth.check(r.meta.auth.roles))))
 const grouped_auth_routes = computed(() => nestedGroupby(auth_routes.value, ['meta.group']))
 const rtl = ref(false)
+const { t, locale } = useI18n()
+const bar = ref(null)
 
 onMounted(() => {
+    setLocal()
+
     const lang: string[] = []
     axios.interceptors.response.use((res) => {
         if (res.data.success)
@@ -37,6 +43,8 @@ onMounted(() => {
             )
             throw err
         },
+
+        //set direction
     )
 
     axios.interceptors.request.use(
@@ -52,39 +60,58 @@ onMounted(() => {
 
 })
 
+watch(() => notify.loading, (new_val) => {
+    if (new_val) bar.value.start()
+    else bar.value.stop()
+})
+
 function logout() {
     axios.post('auth/logout').then(() => {
         $auth.logout()
     })
 }
+function setLocal() {
+    const dir = JSON.parse(localStorage.getItem('is_rtl') || true)
+    rtl.value = dir
+    q.lang.rtl = rtl.value
+    //change lang
+    if (rtl.value) locale.value = 'ar'
+    else locale.value = 'en'
+}
+
 function changeLocal() {
     rtl.value = !rtl.value
     q.lang.rtl = rtl.value
+    //change lang
+    if (rtl.value) locale.value = 'ar'
+    else locale.value = 'en'
+    localStorage.setItem('is_rtl', JSON.stringify(rtl.value))
 }
 </script>
 
 <template>
-    <q-layout view="lhr LPR fFf'" :dir="rtl ? 'rtl' : 'ltr'">
+    <q-layout view="lhr LPR lFr'" :dir="rtl ? 'rtl' : 'ltr'" class="bg-blue-gray-100">
 
-        <q-header class="bg-primary text-white text-left" flat>
-            <q-toolbar class="h-16 bg-sky-200">
-                <q-btn dense flat round icon="menu" @click="isDrawerOpen = !isDrawerOpen" />
-
-                <q-toolbar-title>
-                    Realty control
-                </q-toolbar-title>
+        <q-header flat>
+            <q-toolbar class="h-16 bg-blue-gray-100">
+                <q-btn dense flat color="primary" round icon="menu" @click="isDrawerOpen = !isDrawerOpen" />
+                <q-space />
+                <q-chip size="md" square clickable @click="$router.push('/')">
+                    {{ $route.path == '/' ? t('general.title') : t('general.' + $route.name) }}
+                </q-chip>
 
                 <q-space />
-                <q-btn dense round :label="rtl ? 'E' : 'ع'" @click="changeLocal()" />
+                <q-btn dense round color="info" :label="rtl ? 'E' : 'ع'" @click="changeLocal()" />
 
             </q-toolbar>
-            <q-ajax-bar v-show="notify.loading" position="top" size="4px" color="red" skip-hijack />
+
+            <q-ajax-bar ref="bar" in position="top" size="4px" color="red" />
         </q-header>
 
-        <q-drawer show-if-above v-model="isDrawerOpen" :dir="rtl ? 'rtl' : 'ltr'" class="bg-sky-100">
+        <q-drawer show-if-above v-model="isDrawerOpen" :dir="rtl ? 'rtl' : 'ltr'" class="bg-blue-gray-200">
             <!-- drawer content -->
 
-            <div v-if="$auth.check()" class="px-1  flex items-center    bg-sky-500 text-white h-16">
+            <div v-if="$auth.check()" class="px-1  flex items-center   bg-blue-gray-400 text-blue-gray-600 h-16">
                 <q-avatar size="20">
                     <img :src="$storage + $auth.user().img" alt>
                 </q-avatar>
@@ -99,19 +126,14 @@ function changeLocal() {
             <q-list>
                 <template v-if="$auth.check()">
                     <template v-for="(group, name) in grouped_auth_routes" :key="name">
-
-                        <q-item-label header> {{ name }}</q-item-label>
-
-
+                        <q-item-label header> {{ t('general.' + name) }}</q-item-label>
                         <q-item clickable v-for="(route, i) in group" :key="route.path" active-class="active-class"
                             :to="route.path">
-
                             <q-item-section avatar top>
-                                <q-avatar icon="folder" color="primary" text-color="white" />
+                                <q-avatar icon="folder" />
                             </q-item-section>
-
                             <q-item-section>
-                                <q-item-label> {{ route.name }}</q-item-label>
+                                <q-item-label> {{ t('general.' + route.name) }}</q-item-label>
                             </q-item-section>
 
                         </q-item>
@@ -134,11 +156,18 @@ function changeLocal() {
         </q-drawer>
 
 
-        <q-page-container>
+        <q-page-container :dir="rtl ? 'rtl' : 'ltr'" class="bg-blue-gray-100">
             <router-view> </router-view>
         </q-page-container>
 
+        <q-footer reveal flat class="bg-bluegray-200">
+            <q-card flat class="bg-bluegray-200 text-blue-900">
+                <q-card-section>
+                    <div class="text-h6">Realty Management App 2022</div>
+                </q-card-section>
 
+            </q-card>
+        </q-footer>
         <!--  v-footer.px-0.py-3.bg-light-400(height="400") -->
         <!--      .boxed-container.w-full.bg-light-500 -->
         <!--          .mx-6.d-flex.align-center.gap-2 -->
@@ -169,6 +198,14 @@ function changeLocal() {
 </template>
 
 <style lang="scss">
+[dir="rtl"] i {
+    margin-right: 0px !important;
+}
+
+[dir="rtl"] .q-item__section--side {
+    padding-right: 0px !important;
+}
+
 [dir="rtl"] .q-drawer--left {
     right: 0;
     left: auto;
@@ -179,12 +216,22 @@ function changeLocal() {
 }
 
 .active-class {
-    color: rgb(253, 253, 253);
-    background-color: rgb(5, 79, 79);
-    font-weight: bold;
+    color: rgb(42, 43, 53);
+    background-color: #f1f5f9;
+    font-weight: 900;
 }
 
+.active-class .q-item__label {
+
+    font-weight: bold;
+    color: rgb(29, 103, 232);
+}
+
+
+
+
+
 .active-class i {
-    color: rgb(255, 255, 255);
+    color: rgb(29, 103, 232);
 }
 </style>

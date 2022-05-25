@@ -1,3 +1,9 @@
+validation:
+  required: This field is required
+  email: Pleas write valid email
+  min: this field must be at least {length}
+  max: this field must be not more than {length}
+
 button:
   about: About
   back: Back
@@ -5,6 +11,10 @@ button:
   home: Home
   toggle_dark: Toggle dark mode
   toggle_langs: Change languages
+  save: Save
+  add: Add
+  edit: Edit
+  delete: Delete
 intro:
   desc: Opinionated Vite Starter Template
   dynamic-route: Demo of dynamic route
@@ -12,3 +22,22 @@ intro:
   aka: Also known as
   whats-your-name: What's your name?
 not-found: Not found
+general:
+  title: Realty Management
+  admin: Admin
+  realty: Realty
+  realty_units: Realty units | Realty Unit
+  reservations: Reservations
+  customers: Customers | Customer
+  owners: Owners | Owner
+  accounts: Accounts | Account
+  users: Users | User
+  roles: Roles | Role
+  realty_management: Realty Management
+  add: Add
+inputs:
+  name: Name
+  dode: Code
+  address: Address
+  description: Description
+  docs: Documents

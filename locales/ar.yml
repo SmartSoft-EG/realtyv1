@@ -1,3 +1,8 @@
+validation:
+  required: من فضلك قم  بملـئ هذا الحقل
+  email: من فضلك قم باضافة ايميل صالح
+  min: هذا الحقل يجب عن يكون  ليس اقل من {length}
+  max: هذا الحقل يجب ان يكون ليس اكبر من {length}
 button:
   about: حول
   back: رجوع
@@ -5,6 +10,10 @@ button:
   home: الرئيسية
   toggle_dark: التغيير إلى الوضع المظلم
   toggle_langs: تغيير اللغة
+  save: حفــظ
+  add: إضافـة
+  edit: تعديل
+  delete: حــذف
 intro:
   desc: vite مثال لتطبيق
   dynamic-route: عرض لتوجيهات ديناميكية
@@ -12,3 +21,22 @@ intro:
   aka: معروف أيضا تحت مسمى
   whats-your-name: ما إسمك؟
 not-found: صفحة غير موجودة
+general:
+  title: ادارة العقارات
+  admin: المدير
+  realty: العقارات | عقار
+  realty_units: الوحدات السكنية| وحدة سكنية
+  reservations: الحجوزات
+  customers: العملاء| العميل
+  owners: الملاك| المالك
+  accounts: الحسابات| الحساب
+  users: المستخدمين| المستخدم
+  roles: الصلاحيات| الصلاحية
+  realty_management: ادارة العقارات
+  add: اضافة
+inputs:
+  name: الاسم
+  dode: الكود
+  address: العنوان
+  description: الوصــف
+  docs: المرفقــات
