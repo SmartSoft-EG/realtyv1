@@ -5,6 +5,7 @@ import { useQuasar } from 'quasar';
 const props = defineProps({
   modelValue: Boolean,
   title: String,
+  width: Number
 })
 const q = useQuasar()
 const { t } = useI18n()
@@ -27,7 +28,7 @@ function save() {
 
 <template lang="pug">
 q-dialog(v-model="model" persistent)
-  q-card(style="max-width: 500px;width:500px" :dir="q.lang.rtl ? 'rtl' : 'ltr'")
+  q-card(:style="`width:${width}px;max-width:1500px;min-width:500px`" :dir="q.lang.rtl ? 'rtl' : 'ltr'")
     q-toolbar(class="bg-blue-gray-300")
       q-toolbar-title
         span.text-weight-bold {{ title }}
