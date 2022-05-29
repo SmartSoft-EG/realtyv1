@@ -7,7 +7,9 @@ import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 import routes from '~pages'
 import { useNotifyStore } from '@/stores/notification'
-import { json } from 'stream/consumers';
+import langAr from 'quasar/lang/ar'
+import langEn from 'quasar/lang/en-US'
+
 const q = useQuasar()
 const $auth = useAuth()
 const notify = useNotifyStore()
@@ -21,8 +23,10 @@ const { t, locale } = useI18n()
 const bar = ref(null)
 
 onMounted(() => {
-    setLocal()
+    setLang(localStorage.getItem('current_lang') || 'ar')
 
+
+    //applyLocal()
     const lang: string[] = []
     axios.interceptors.response.use((res) => {
         if (res.data.success)
@@ -70,57 +74,73 @@ function logout() {
         $auth.logout()
     })
 }
-function setLocal() {
-    const dir = JSON.parse(localStorage.getItem('is_rtl') || true)
-    rtl.value = dir
-    q.lang.rtl = rtl.value
-    //change lang
-    if (rtl.value) locale.value = 'ar'
-    else locale.value = 'en'
+
+
+// function changeLocal() {
+//     let cl = q.lang.name
+//     q.lang.rtl = !q.lang.rtl
+//     //change lang
+//     applyLocal()
+//     localStorage.setItem('is_rtl', JSON.stringify(q.lang.rtl))
+// }
+
+function setLang(lang: string) {
+    let langs = {
+        'ar': langAr,
+        'en': langEn
+    }
+    locale.value = lang
+    q.lang.set(langs[lang])
+    localStorage.setItem('current_lang', lang)
+
+
+}
+function setLangE() {
+    localStorage.setItem('current_lang', 'en-US')
+    q.lang.set(langEn)
+    locale.value = 'en-US'
 }
 
-function changeLocal() {
-    rtl.value = !rtl.value
-    q.lang.rtl = rtl.value
-    //change lang
-    if (rtl.value) locale.value = 'ar'
-    else locale.value = 'en'
-    localStorage.setItem('is_rtl', JSON.stringify(rtl.value))
+function setLangA() {
+    localStorage.setItem('current_lang', 'ar')
+    q.lang.set(langAr)
+    locale.value = 'ar'
 }
 </script>
 
 <template>
-    <q-layout view="lhr LPR lFr'" :dir="rtl ? 'rtl' : 'ltr'" class="bg-blue-gray-100">
+    <q-layout view="lHr LPR lFr" class="bg-blue-gray-100">
 
         <q-header flat>
             <q-toolbar class="h-16 bg-blue-gray-100">
                 <q-btn dense flat color="primary" round icon="menu" @click="isDrawerOpen = !isDrawerOpen" />
                 <q-space />
-                <q-chip size="md" square clickable @click="$router.push('/')">
-                    {{ $route.path == '/' ? t('general.title') : t('general.' + $route.name) }}
+                <q-chip color="primary" class="text-white" square clickable @click="$router.push('/')">
+                    {{ $route.path == '/' ? t('general.title') : t('pages.' + $route.name) }}
                 </q-chip>
 
                 <q-space />
-                <q-btn dense round color="info" :label="rtl ? 'E' : 'ع'" @click="changeLocal()" />
+                <q-btn v-show="q.lang.isoName == 'ar'" dense round color="primary" outline label="e"
+                    @click="setLang('en')" />
+                <q-btn v-show="q.lang.isoName == 'en-US'" dense round color="primary" outline label="ع"
+                    @click="setLang('ar')" />
 
             </q-toolbar>
 
             <q-ajax-bar ref="bar" in position="top" size="4px" color="red" />
         </q-header>
 
-        <q-drawer show-if-above v-model="isDrawerOpen" :dir="rtl ? 'rtl' : 'ltr'" class="bg-blue-gray-200">
+        <q-drawer show-if-above v-model="isDrawerOpen" class="bg-blue-gray-200">
             <!-- drawer content -->
-
-            <div v-if="$auth.check()" class="px-1  flex items-center   bg-blue-gray-400 text-blue-gray-600 h-16">
+            <div v-if="$auth.check()" class="px-1  flex items-center   bg-blue-gray-100 text-gray-700 h-15">
                 <q-avatar size="20">
                     <img :src="$storage + $auth.user().img" alt>
                 </q-avatar>
-
                 <h5 class="text-center ma-2 white--text">
                     {{ $auth.user().name.split(/(\s).+\s/).join("") }}
                 </h5>
                 <div class="flex-1" />
-                <q-btn icon="mdi-power" round size="sm" @click="logout()" />
+                <q-btn icon="mdi-power" round color="negative" outline size="sm" @click="logout()" />
             </div>
 
             <q-list>
@@ -133,7 +153,7 @@ function changeLocal() {
                                 <q-avatar icon="folder" />
                             </q-item-section>
                             <q-item-section>
-                                <q-item-label> {{ t('general.' + route.name) }}</q-item-label>
+                                <q-item-label> {{ t('pages.' + route.name) }}</q-item-label>
                             </q-item-section>
 
                         </q-item>
@@ -156,7 +176,7 @@ function changeLocal() {
         </q-drawer>
 
 
-        <q-page-container :dir="rtl ? 'rtl' : 'ltr'" class="bg-blue-gray-100">
+        <q-page-container class="bg-blue-gray-100">
             <router-view> </router-view>
         </q-page-container>
 
@@ -168,24 +188,6 @@ function changeLocal() {
 
             </q-card>
         </q-footer>
-        <!--  v-footer.px-0.py-3.bg-light-400(height="400") -->
-        <!--      .boxed-container.w-full.bg-light-500 -->
-        <!--          .mx-6.d-flex.align-center.gap-2 -->
-        <!--              span © 2022 44 -->
-        <!--                  a.text-decoration-none(href="https://azucdent.net" target="_blank") -->
-        <!--                      | AZUCDENT -->
-        <!--              v-avatar.border-1.border-light-300(size="75") -->
-        <!--                  // <img :src="hamza_url" class="border-1 border-light-300"> -->
-        <!--              v-avatar(size="75") -->
-        <!--                  // <img :src="fayed_url"> -->
-        <!--              span.d-sm-inline.d-none -->
-        <!--                  a.me-6.text--secondary.text-decoration-none(href="https://themeselection.com/products/category/download-free-admin-templates/" target="_blank") -->
-        <!--                      | Freebies -->
-        <!--                  a.me-6.text--secondary.text-decoration-none(href="https://themeselection.com/blog/" target="_blank") -->
-        <!--                      | Blog -->
-        <!--                  a.text--secondary.text-decoration-none(href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free/blob/main/LICENSE" target="_blank") -->
-        <!--                      | MIT Licence -->
-
 
         <!-- <v-snackbar v-model="notify.show" text top :color="notify.color">
             {{ notify.text }}<template #action="{ attrs }">
@@ -198,21 +200,8 @@ function changeLocal() {
 </template>
 
 <style lang="scss">
-[dir="rtl"] i {
-    margin-right: 0px !important;
-}
-
-[dir="rtl"] .q-item__section--side {
-    padding-right: 0px !important;
-}
-
-[dir="rtl"] .q-drawer--left {
-    right: 0;
-    left: auto;
-}
-
-[dir="ltr"] .q-drawer--left {
-    left: auto;
+h5 {
+    font-size: 20px;
 }
 
 .active-class {
@@ -224,7 +213,7 @@ function changeLocal() {
 .active-class .q-item__label {
 
     font-weight: bold;
-    color: rgb(29, 103, 232);
+    color: rgb(232, 97, 1);
 }
 
 
@@ -232,6 +221,31 @@ function changeLocal() {
 
 
 .active-class i {
-    color: rgb(29, 103, 232);
+    color: rgb(232, 97, 1);
+    ;
+}
+
+.active {
+
+    background: green;
+    color: white;
+}
+
+.waiting {
+
+    background: rgb(246, 255, 167);
+
+}
+
+.performed {
+
+    background: rgb(0, 110, 0);
+    color: white;
+}
+
+.closed {
+
+    background: rgb(83, 83, 255);
+    color: white;
 }
 </style>

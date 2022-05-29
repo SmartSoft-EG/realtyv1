@@ -15,6 +15,8 @@ const messages = Object.fromEntries(
 
 export const install = (app: any) => {
   const i18n = createI18n({
+    fallbackWarn: false,
+    missingWarn: false,
     legacy: false,
     locale: 'ar',
     messages,

@@ -3,7 +3,7 @@ validation:
   email: Pleas write valid email
   min: this field must be at least {length}
   max: this field must be not more than {length}
-
+  digits: This field shuld be { length } digits
 button:
   about: About
   back: Back
@@ -15,6 +15,8 @@ button:
   add: Add
   edit: Edit
   delete: Delete
+  login: Login
+  load_data: Load Data
 intro:
   desc: Opinionated Vite Starter Template
   dynamic-route: Demo of dynamic route
@@ -35,9 +37,64 @@ general:
   roles: Roles | Role
   realty_management: Realty Management
   add: Add
+  customer: Customer
+  supplier: supplier
+  owner: Owner
+  details: Details
 inputs:
+  id: ID
   name: Name
-  dode: Code
+  code: Code
   address: Address
   description: Description
   docs: Documents
+  email: Email
+  password: Password
+  floors_count: Floors Count
+  floor_size: Floor Size
+  size: Size
+  is_main: Is Main
+  debit: Debit
+  credit: Credit
+  balance: Balance
+  balance_type: Balance Type
+  telephone: Telephone
+  job: Job
+  national_id: National ID
+  type: Type
+  options: Options
+  floor: Floor
+  owners: Owners | Owner
+  percent: Percent
+  actions: Options
+  state: State
+  price: Price
+  realty: Realty
+  start_date: Start Date
+  end_date: End Date
+  customer: Customer
+  income_date: Income Date
+  months_count: Months Count
+  price_per_month: Price Per Month
+  due_date: Due Date
+  rent_value_per_month: Rent value Per Month
+  unit_code: Unit Code
+  total_dues: Total Dues
+  total_payments: Total Payments
+pages:
+  login: Login
+  realty_units: Realty Units | Realty Unit
+  realty_unit_detail: Realty Unit Details
+  peoples: Peoples | People
+  admin: Admin
+  realty: Realty
+  reservations: Reservations | Reservation
+  customers: Customers | Customer
+  owners: Owners | Owner
+  accounts: Accounts | Account
+  users: Users | User
+  roles: Roles | Role
+  realty_management: Realty Management
+  reservation_details: Reservation Details
+titles:
+  add_reservation: Add Reservation

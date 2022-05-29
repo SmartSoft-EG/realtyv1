@@ -3,6 +3,7 @@ validation:
   email: من فضلك قم باضافة ايميل صالح
   min: هذا الحقل يجب عن يكون  ليس اقل من {length}
   max: هذا الحقل يجب ان يكون ليس اكبر من {length}
+  digits: يجب أن يتألف هذا الحقل من {length} رقمًا
 button:
   about: حول
   back: رجوع
@@ -14,6 +15,8 @@ button:
   add: إضافـة
   edit: تعديل
   delete: حــذف
+  login: دخـــول
+  load_data: تحميل البيانات
 intro:
   desc: vite مثال لتطبيق
   dynamic-route: عرض لتوجيهات ديناميكية
@@ -34,9 +37,74 @@ general:
   roles: الصلاحيات| الصلاحية
   realty_management: ادارة العقارات
   add: اضافة
+  customer: عميل
+  supplier: مورد
+  owner: مالك
+  details: التفاصيل
+  dues: المستحقات|استحقاق
+  payments: المدفوعات|تحصيل
+  waiting: انتظار
+  active: نشـط
+  performed: تــم
+  closed: مغلق
 inputs:
+  id: الرقم المعرف
   name: الاسم
-  dode: الكود
+  code: الكود
   address: العنوان
   description: الوصــف
   docs: المرفقــات
+  email: الايميل
+  password: كلمــة السر
+  floors_count: عدد الطوابـق
+  floor_size: المساحة
+  size: المساحة
+  is_main: حساب رئيسي
+  debit: مدين
+  credit: دائن
+  balance: الرصيد
+  balance_type: نوع الرصيد
+  telephone: رقم الهاتف
+  job: الوظيفة
+  national_id: الهوية الوطنية
+  type: النوع
+  options: خيارات
+  floor: الطابق
+  owners: |-
+    الملاك | 
+    المالك
+  percent: النسبة
+  actions: خيارات
+  state: الحالة
+  price: السعر
+  realty: عقار
+  start_date: تاريخ البدء
+  end_date: تاريخ الانتهاء
+  customer: العميل
+  income_date: تاريخ الاستحقاق
+  months_count: عدد الأشهر
+  price_per_month: قيمة الايجار الشهري
+  due_date: تاريخ الاستحقاق
+  rent_value_per_month: الإيجار الشهري
+  unit_code: كود الوحدة
+  value: القيمة
+  date: التاريخ
+  total_dues: اجمالي المستحقات
+  total_payments: اجمالي المدفوعات
+pages:
+  login: تسجيل الدخول
+  peoples: الاشخاص |  شخص
+  admin: المدير
+  realty: العقارات | عقار
+  realty_units: الوحدات السكنية| وحدة سكنية
+  realty_unit_detail: تفاصيل وحدة عقارية
+  reservations: الحجوزات| حجز
+  customers: العملاء| العميل
+  owners: الملاك| المالك
+  accounts: الحسابات| الحساب
+  users: المستخدمين| المستخدم
+  roles: الصلاحيات| الصلاحية
+  realty_management: ادارة العقارات
+  reservation_details: تفاصيل حجز وحدة سكنية
+titles:
+  add_reservation: إضافــة حجــز
