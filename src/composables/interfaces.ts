@@ -12,8 +12,11 @@ export interface Reservation {
     realty_unit_id?: number,
     start_date?: Date,
     end_date?: Date,
-    price?: number,
+    months_count?: number,
+    rent_value_per_month?: number,
+    due_date?: number,
     state?: 'active' | 'closed' | 'waiting' | undefined,
+    transactions?: []
 }
 
 export interface RealtyUnit {
@@ -37,6 +40,8 @@ export interface Realty {
     address?: string,
     description?: string,
     code?: string,
+    size?: number,
+    floors_count?: number,
     unites?: RealtyUnit[],
     docs?: Doc[]
 }
