@@ -20,8 +20,12 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->date('start_date');
             $table->date('end_date');
-            $table->float('price');
-            $table->float('total_price');
+            $table->float('rent_value_per_month');
+            $table->float('months_count');
+            $table->float('total_rent_value'); //total required rent in all period
+            $table->float('total_dues')->default(0); // total dues at current time
+            $table->float('total_payments')->default(0); // total payments at current time
+            $table->tinyInteger('due_date')->default(1);
             $table->float('commission')->default(0);
             $table->string('state', 40)->default('active');
             $table->foreign('realty_unit_id')->references('id')->on('realty_units')->onDelete('cascade');

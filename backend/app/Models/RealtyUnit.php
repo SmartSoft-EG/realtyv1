@@ -23,6 +23,11 @@ class RealtyUnit extends Model
 
     public function owners()
     {
-        return $this->belongsToMany(Owner::class, 'realty_units_owners');
+        return $this->belongsToMany(People::class, 'realty_units_peoples');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(RealtyUnitReservation::class);
     }
 }

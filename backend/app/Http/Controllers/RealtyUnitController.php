@@ -14,12 +14,14 @@ class RealtyUnitController extends Controller
 
     public function store()
     {
-        //return request();
-        $realty_unit = RealtyUnit::create(request(['name', 'realty_id', 'floor', 'code', 'type',  'description']));
+        //     return request();
+        $realty_unit = RealtyUnit::create(request(['realty_id', 'floor', 'size', 'code', 'type',  'description']));
         //add owners
+
         foreach (request()->owners as $owner) {
             $realty_unit->owners()->attach($owner['id'], ['percent' => $owner['percent']]);
         }
+
         if (request()->imgs && is_array(request()->imgs)) {
             foreach (request()->imgs as $img) {
                 $path = $img->store('docs/realty', ['disk' => 'public']);
@@ -32,13 +34,13 @@ class RealtyUnitController extends Controller
 
     public function show(RealtyUnit $realty_unit)
     {
-        return $realty_unit->load('realty:id,name', 'docs');
+        return $realty_unit->load('realty:id,name', 'reservations', 'reservations.customer:id,name,balance', 'docs');
     }
 
     public function update(RealtyUnit $realty_unit)
     {
 
-        $realty_unit->update(request(['name', 'code', 'floor', 'description']));
+        $realty_unit->update(request(['code', 'floor', 'size', 'type', 'description']));
         if (request()->imgs && is_array(request()->imgs)) {
             foreach (request()->imgs as $img) {
                 $path = $img->store('docs/realty', ['disk' => 'public']);

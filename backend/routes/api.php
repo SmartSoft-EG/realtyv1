@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccTransactionController;
 use App\Http\Controllers\AccTransDetailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustoemrController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocController;
+use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\RealtyController;
 use App\Http\Controllers\RealtyOwnerController;
 use App\Http\Controllers\RealtyUnitController;
@@ -49,10 +52,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('user', AuthController::class);
     Route::apiResource('role', RoleController::class);
     Route::apiResource('account', AccountController::class);
+    Route::apiResource('acc-transaction', AccTransactionController::class);
+    Route::apiResource('acc-trans-detail', AccTransDetailController::class);
     Route::apiResource('realty', RealtyController::class);
     Route::apiResource('realty-unit', RealtyUnitController::class);
     Route::apiResource('realty-unit-reservation', RealtyUnitReservationController::class);
     Route::apiResource('customer', CustomerController::class);
-    Route::apiResource('owner', RealtyOwnerController::class);
-    Route::apiResource('acc-trans-detail', AccTransDetailController::class);
+    Route::apiResource('people', PeopleController::class);
+
+    Route::apiResource('owner', OwnerController::class);
+    Route::post('test', [AuthController::class, 'test']);
 });

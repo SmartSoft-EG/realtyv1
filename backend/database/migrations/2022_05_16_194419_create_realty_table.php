@@ -21,6 +21,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('address');
+            $table->integer('size')->default(100);
+            $table->tinyInteger('floors_count')->default(1);
+            // $table->smallInteger('floor_units')->default(1);
+            // $table->smallInteger('base_floor_markets')->default(0);
+            // $table->smallInteger('base_floor_apartments')->default(0);
             $table->timestamps();
         });
     }

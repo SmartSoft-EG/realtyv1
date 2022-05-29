@@ -14,10 +14,21 @@ class AccTransDetail extends Model
     {
         parent::boot();
         static::created(function ($entry) {
+            //update main entry balance
             $entry->account->increment('credit',  (float)$entry->credit);
             $entry->account->increment('debit',  (float)$entry->debit);
             $entry->account->updateBalance();
             $entry->update(['balance' => $entry->account->balance, 'balance_type' => $entry->account->balance_type]);
+
+            //update related entry balance
+            $related = $entry->detailable;
+            if ($related) {
+                $related->increment('credit',  (float)$entry->credit);
+                $related->increment('debit',  (float)$entry->debit);
+                $related->updateBalance();
+                $entry->update(['related_balance' => $related->balance, 'balance_type' => $related->balance_type]);
+            }
+
             $parent = $entry->account->parent;
             redo:
             if ($parent->id > 0) {
@@ -65,7 +76,8 @@ class AccTransDetail extends Model
     {
         return $this->account->balance;
     }
-    public function morphable()
+
+    public function detailable()
     {
         return $this->morphTo();
     }

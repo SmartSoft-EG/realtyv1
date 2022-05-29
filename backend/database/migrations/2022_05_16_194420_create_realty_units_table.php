@@ -17,15 +17,16 @@ return new class extends Migration
         Schema::create('realty_units', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('realty_id');
-            $table->foreign('realty_id')->references('id')->on('realty');
             $table->string('code');
             $table->string('type')->default('apartment');
             $table->string('name');
             $table->tinyInteger('floor')->default(0);
+            $table->integer('size');
             $table->string('description');
             $table->string('state')->default('free');
             $table->float('price')->nullable();
             $table->timestamps();
+            $table->foreign('realty_id')->references('id')->on('realty');
         });
         // DB::unprepared('CREATE TRIGGER add_activity AFTER INSERT ON `items` FOR EACH ROW
         // -- BEGIN

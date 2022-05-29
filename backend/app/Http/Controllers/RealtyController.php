@@ -18,7 +18,7 @@ class RealtyController extends Controller
     public function store()
     {
 
-        $realty = Realty::create(request(['name', 'code', 'address', 'description', 'realty_owner_id']));
+        $realty = Realty::create(request(['name', 'code', 'address', 'description', 'floors_count', 'size']));
         if (request()->imgs && is_array(request()->imgs)) {
             foreach (request()->imgs as $img) {
                 $path = $img->store('docs/realty', ['disk' => 'public']);
@@ -37,7 +37,7 @@ class RealtyController extends Controller
     public function update(Realty $realty)
     {
 
-        $realty->update(request(['name', 'code', 'address', 'description']));
+        $realty->update(request(['name', 'code', 'address', 'description', 'floors_count', 'size']));
         if (request()->imgs && is_array(request()->imgs)) {
             foreach (request()->imgs as $img) {
                 $path = $img->store('docs/realty', ['disk' => 'public']);

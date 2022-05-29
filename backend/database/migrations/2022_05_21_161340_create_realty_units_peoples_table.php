@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('realty_units_owners', function (Blueprint $table) {
+        Schema::create('realty_units_peoples', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('realty_unit_id');
-            $table->unsignedBigInteger('owner_id');
-            $table->foreign('realty_unit_id')->references('id')->on('realty_units')->onDelete('cascade');
-            $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade');
+            $table->unsignedBigInteger('realty_units_people_id');
             $table->float('percent')->default(1);
             $table->timestamps();
+            $table->foreign('realty_unit_id')->references('id')->on('realty_units')->onDelete('cascade');
+            $table->foreign('realty_units_people_id')->references('id')->on('peoples')->onDelete('cascade');
         });
     }
 
