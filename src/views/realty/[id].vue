@@ -11,7 +11,7 @@ import type { Realty } from '~/composables/interfaces'
 import axios from 'axios';
 import { serialize } from 'object-to-formdata';
 const route = useRoute()
-
+const { t } = useI18n()
 const realty = ref<Realty>({
     id: 0,
     name: '',
@@ -27,7 +27,7 @@ onMounted(() => {
 })
 
 
-
+const docs = computed(() => realty.value.docs.map(d => getCurrentInstance()?.proxy.$storage + d.path))
 function editRealty() {
 
     show_add_dialog.value = true
@@ -49,23 +49,24 @@ function updateRealty() {
     })
 }
 
+function addRealtyUnit() {
 
+}
 
 </script>
 
 <template lang="pug">
 d-page(@refresh="str.fetchRealty()")
     template(#tools)
-        v-btn(color="primary" @click="editRealty")
-            | Edit realty
-    d-line(title="id" ) {{ realty.id }}
-    d-line(title="name" ) {{ realty.name }}
-    d-line(title="code" ) {{ realty.code }}
-    d-line(title="description" ) {{ realty.description }}
-    d-line(title="docs" )
-        .flex.center.justify-center
-            img.border-2.border-red.rounded-md.mx-2(v-for="(doc, i) in realty.docs" :key="i" :src="$storage + doc.path" style="max-height: 100px;")
-    d-line(title="unites" ) {{ realty.unites }}
+        q-btn(color="info" icon="edit" @click="editRealty" :label="t('button.edit')")
+        q-btn(color="primary" @click="addRealtyUnit" icon="mdi-plus" :label="t('button.add') + ' ' + t('pages.realty_units', 2)")
+
+    vr-table(:data="realty" :headers="['id', 'name', 'code', 'address', 'floors_count', 'size', 'description', 'docs']")
+        template(#docs)
+            .flex.center.justify-center.gap-2
+                el-image(style="height: 100px" v-for="(doc, i) in realty.docs" :key="i" :src="$storage + doc.path" :preview-src-list="docs" :initial-index="4" fit="cover")
+    d-line(title="unites")
+        | {{ realty.unites }}
     d-dialog(v-model="show_add_dialog" title="Add realty" @save="updateRealty()")
         q-input(v-model="realty.name" type="text" label="name")
         q-input(v-model="realty.code" type="text" label="code")
