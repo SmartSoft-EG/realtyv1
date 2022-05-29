@@ -28,6 +28,9 @@ export default function useValidation() {
         if (data['required'] && !value) return t('validation.required');
         if (data['min'] && value.length < data['min']) return t('validation.min', { length: data['min'] })
         if (data['max'] && value.length > data['max']) return t('validation.max', { length: data['max'] })
+        if (data['digits'] && value.length != data['digits']) return t('validation.digits', { length: data['digits'] })
+
+
         if (data['email']) {
             let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
             let valid = reg.test(value)
