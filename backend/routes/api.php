@@ -14,6 +14,7 @@ use App\Http\Controllers\RealtyOwnerController;
 use App\Http\Controllers\RealtyUnitController;
 use App\Http\Controllers\RealtyUnitReservationController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +50,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::apiResource('user', AuthController::class);
+    Route::apiResource('user', UserController::class);
     Route::apiResource('role', RoleController::class);
     Route::apiResource('account', AccountController::class);
     Route::apiResource('acc-transaction', AccTransactionController::class);

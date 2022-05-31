@@ -1,4 +1,5 @@
 <route lang="yaml">
+name: roles
 meta:
   auth: true
   group: admin
@@ -11,14 +12,14 @@ import routes from '~pages'
 
 
 import { useRoleStore } from '~/stores/role'
-
+const { t } = useI18n()
 const routes_have_roles = computed(() => routes.filter(r => r.meta && !r.meta.hide))
 const cols = ['id', 'name', 'permissions', 'options']
 const columns = computed(() => cols.map((c) => {
     return {
         name: c,
         field: c,
-        label: c,
+        label: t('inputs.' + c),
         align: 'left',
     }
 }))
@@ -55,6 +56,7 @@ function saveRole() {
 }
 
 function checkAll(r: any) {
+    console.log('t')
     role.value.permissions = role.value.permissions.filter(p => p != 'admin')
 
     if (!r.meta.roles) return
@@ -76,26 +78,26 @@ function setAdmin() {
 <template lang="pug">
 d-page(@refresh="str.fetchRoles()")
     template(#tools)
-        v-btn(color="success" @click="addRole()")
-            | Add role
+        q-btn(color="primary" icon="add" flat @click="addRole()" :label="t('button.add') + ' ' + t('pages.roles', 2)")
+
     q-table(title="Roles" flat :rows="roles" :columns="columns" row-key="id")
         template(#body-cell-permissions="props")
             td
                 span {{ props.row.permissions }}
         template(#body-cell-options="props")
             td
-                q-btn(icon="mdi-pencil" variant="outlined" density="compact" color="primary" @click.prevent.stop="editRole(props.row)")
-                q-btn(icon="mdi-eye" outlined color="primary" :to="'/users/roles/' + props.row.id")
+                q-btn(icon="mdi-eye" size="sm" class="mx-1" round color="info" :to="$route.path + '/' + props.row.id")
 
-    d-dialog(v-model="str.show_add_dialog" @save="saveRole()")
-        |{{ role }}
-        q-input(v-model="role.name" type="text" label="name" variant="outlined")
-        v-card(outline color="primary")
-            v-checkbox(value="admin" label="admin" v-model="role.permissions"  @change.stop="setAdmin()")
+                q-btn(icon="mdi-pencil" size="sm" class="mx-1" round color="primary" @click.prevent.stop="editRole(props.row)")
+
+    d-dialog(v-model="str.show_add_dialog" @save="saveRole()" :width="1200")
+        q-input(v-model="role.name" outlined type="text" label="name" variant="outlined")
+        q-card(outline color="primary")
+            q-checkbox(val="admin" label="admin" v-model="role.permissions"  @click.stop="setAdmin()")
                 .text-red.text-center admin will have access to all permissions 
-        v-card(outline v-for="route in routes_have_roles" :key="route.path")
-            v-checkbox(color="success" density="comfortable" large :label="route.name" hide-details  :value="route.path" v-model="role.permissions" multiple @change.stop="checkAll(route)") 
+        q-card(outline flat v-for="route in routes_have_roles" :key="route.path")
+            q-checkbox(color="success"  :label="t('pages.' + route.name)"   :val="route.path" v-model="role.permissions" multiple @click="checkAll(route)") 
             .flex.ml-3(v-show="role.permissions.includes(route.path)")
-                v-checkbox(v-for="perm in route.meta?.roles" hide-details :value="route.path + '.' + perm" multiple :label="perm" v-model="role.permissions")
+                q-checkbox(v-for="perm in route.meta?.roles" hide-details :val="route.path + '.' + perm" multiple :label="t('button.' + perm)" v-model="role.permissions")
 
 </template>

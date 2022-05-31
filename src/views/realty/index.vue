@@ -80,7 +80,7 @@ function deleteRealty(id: number) {
 
 <template>
     <d-page @refresh="str.fetch()"><template #tools>
-            <q-btn color="primary" @click="addRealty" icon="mdi-plus"
+            <q-btn flat color="primary" @click="addRealty" icon="mdi-plus"
                 :label="t('button.add') + ' ' + t('general.realty', 2)"></q-btn>
         </template>
         <q-table title="Realty" :filter="search" flat :rows="str.realty_list" :columns="columns" row-key="id"><template

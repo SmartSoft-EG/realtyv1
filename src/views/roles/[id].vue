@@ -10,6 +10,7 @@ meta:
 import axios from 'axios';
 import { useUserStore } from '~/stores/user'
 import routes from '~pages'
+import VrTable from '../../components/VrTable.vue'
 interface user {
     id: number,
     name: string,
@@ -27,7 +28,7 @@ const role = ref<perms>({ id: 0, users: [], permissions: [] })
 const selected_users = ref<number[]>([])
 const stu = useUserStore()
 const route = useRoute()
-
+const { t } = useI18n()
 
 //const toast = useToast();
 
@@ -75,30 +76,25 @@ function updateRole() {
 <template lang="pug">
 d-page()
     template(#tools)
-        v-btn(color="success" @click="editRole()")
-            | edit role users
-    d-line(title="id" ) {{ role.id }}
-    d-line(title="name" ) {{ role.name }}
-    d-line(title="permissions" )
-        //ListBox(:options="role.permissions" style="width:15rem"  listStyle="max-height:30em" )
-    d-line(title="users")
-        //ListBox(:options="role.users" optionLabel="name" v-model="selected_users" :filter="true" listStyle="max-height:20em" style="width:15em;max-height: 300px;")
-d-dialog(v-model="show_add_role_dialog" @save="updateRole()")
-    q-input(v-model="role.name" type="text" label="Role name" outlined variant="outlined")
-    v-card
-        v-card-title Role Users
-            v-spacer
-            v-btn(@click="stu.fetchUsers()") reload users   
-        v-card-text
-            v-checkbox(v-for="(user, i2) in stu.users" :key="i2" :label="user.name" :value="user.id" v-model="selected_users" hide-details)
-    v-card
-        v-card-title Role permissions
-        v-card(outline)
-            v-checkbox(value="admin" label="admin" v-model="role.permissions" hide-details  @change.stop="setAdmin()")
-            .text-red.text-center admin will have access to all permissions 
-        v-card(outline v-for="route in routes_have_roles" :key="route.path")
-            v-checkbox(color="success" density="comfortable" large :label="route.name" hide-details  :value="route.path" v-model="role.permissions" multiple @change.stop="checkAll(route)") 
-            .flex.ml-3(v-show="role.permissions.includes(route.path)")
-                v-checkbox(v-for="perm in route.meta?.roles" hide-details :value="route.path + '.' + perm" multiple :label="perm" v-model="role.permissions")
+        q-btn(color="success" @click="editRole()" icon="edit" flat :label="t('button.edit')")
+    VrTable(:data="role" :headers="['id', 'name', 'permissions', 'users']")
+
+    d-dialog(v-model="show_add_role_dialog" @save="updateRole()")
+        q-input(v-model="role.name" type="text" label="Role name" outlined variant="outlined")
+        q-card
+            q-card-section Role Users
+                q-spacer
+                q-btn(@click="stu.fetchUsers()") reload users   
+            q-card-section
+                q-checkbox(v-for="(user, i2) in stu.users" :key="i2" :label="user.name" :val="user.id" v-model="selected_users" hide-details)
+        q-card
+            q-card-section Role permissions
+            q-card(outline color="primary")
+                q-checkbox(val="admin" label="admin" v-model="role.permissions"  @click.stop="setAdmin()")
+                    .text-red.text-center admin will have access to all permissions 
+            q-card(outline flat v-for="route in routes_have_roles" :key="route.path")
+                q-checkbox(size="lg" color="positive"  :label="t('pages.' + route.name)"   :val="route.path" v-model="role.permissions" multiple @click="checkAll(route)") 
+                .flex.ml-3(v-show="role.permissions.includes(route.path)")
+                    q-checkbox(v-for="perm in route.meta?.roles" hide-details :val="route.path + '.' + perm" multiple :label="t('button.' + perm)" v-model="role.permissions")
 
 </template>

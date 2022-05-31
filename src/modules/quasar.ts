@@ -8,20 +8,20 @@ import '@quasar/extras/bootstrap-icons/bootstrap-icons.css'
 import 'quasar/src/css/index.sass'
 // Assumes your root component is App.vue
 // and placed in same folder as main.js
+//import langAr from 'quasar/lang/ar'
 
 
 const config = {
 
   plugins: {}, // import Quasar plugins and add here
   config: {
+    //lang: langAr,
 
-    build: {
-      rtl: true
-    }
-    ,
+
     brand: {
       primary: '#64748b',
       show: '#64748b',
+      negative: '#c70369'
       // ... or all other brand colors
     }
   }

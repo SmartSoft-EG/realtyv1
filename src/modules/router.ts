@@ -15,7 +15,13 @@ axios.defaults.withCredentials = true;
 
 // setup up pages with layouts
 const routes = setupLayouts(generatedRoutes)
-const router = createRouter({ history: createWebHistory(), routes })
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+    linkActiveClass: 'active-class',
+    linkExactActiveClass: 'exact-active-class'
+
+})
 
 const auth = createAuth({
     plugins: {

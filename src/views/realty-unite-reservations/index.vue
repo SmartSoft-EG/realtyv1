@@ -86,7 +86,7 @@ const handleChange = (info: UploadChangeParam) => {
 <template lang="pug">
 d-page(@refresh="str.fetch()")
     template(#tools)
-        q-btn(icon="add" color="primary" @click="addReservation" :label="t('button.add') + ' ' + t('pages.reservations', 2)")
+        q-btn(flat icon="add" color="primary" @click="addReservation" :label="t('button.add') + ' ' + t('pages.reservations', 2)")
     q-table(title=" Realty units" :filter="search" flat :rows="str.list" :columns="columns" row-key="id")
         template(#top-right)
             q-input(v-model="search" outlined dense type="text")

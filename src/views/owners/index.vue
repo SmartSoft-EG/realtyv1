@@ -1,5 +1,5 @@
 <route lang="yaml">
-name: الملاك
+name: owners
 meta:
   auth: true
   group: 'admin'
@@ -23,7 +23,7 @@ const columns = computed(() => cols.map((c) => {
 
 const rows = computed(() => {
     const reg = new RegExp(`.*${data.search.split('').join('.*')}.*`)
-    return stu.owners.filter(e => reg.test(e.name.toLowerCase()) || reg.test(e.telephone) || reg.test(e.email))
+    return stu.list.filter(e => reg.test(e.name.toLowerCase()) || reg.test(e.telephone) || reg.test(e.email))
 }
 
 )
@@ -77,19 +77,16 @@ function saveOwner() {
 
 <template>
     <d-page @refresh="stu.fetch()"><template #tools>
-            <v-btn color="success" @click="addOwner()">Add owner</v-btn>
+            <q-btn color="success" @click="addOwner()">Add owner</q-btn>
         </template>
 
-        <q-table title="owners" :filter="search" flat :rows="stu.owners" :columns="columns" row-key="id"><template
+        <q-table title="owners" :filter="search" flat :rows="stu.list" :columns="columns" row-key="id"><template
                 #top-right>
                 <q-input v-model="search" outlined dense type="text"><template #append>
                         <q-icon name="search"></q-icon>
                     </template>
                 </q-input>
-
-
             </template>
-
             <template #body-cell-account="props">
                 <td>
                     <el-tag> {{ props.row.account ? props.row.account.id : '' }}</el-tag>
@@ -98,10 +95,10 @@ function saveOwner() {
 
             <template #body-cell-options="props">
                 <td class="flex gap-2">
-                    <v-btn icon="mdi-eye" variant="outlined" density="compact" color="success"
-                        :to="'/owners/' + props.row.id"></v-btn>
-                    <v-btn icon="mdi-pencil" variant="outlined" density="compact" color="primary"
-                        @click="editOwner(props.row)"></v-btn>
+                    <q-btn icon="mdi-eye" variant="outlined" density="compact" color="success"
+                        :to="'/owners/' + props.row.id"></q-btn>
+                    <q-btn icon="mdi-pencil" variant="outlined" density="compact" color="primary"
+                        @click="editOwner(props.row)"></q-btn>
                     <el-popconfirm title="Are you sure to delete this?" @confirm="deleteCustomer(props.row.id)">
                         <template #reference>
                             <v-icon size="large" href="#delete">mdi-close</v-icon>

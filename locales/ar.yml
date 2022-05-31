@@ -17,6 +17,7 @@ button:
   delete: حــذف
   login: دخـــول
   load_data: تحميل البيانات
+  permissions: التصاريح
 intro:
   desc: vite مثال لتطبيق
   dynamic-route: عرض لتوجيهات ديناميكية
@@ -91,6 +92,7 @@ inputs:
   date: التاريخ
   total_dues: اجمالي المستحقات
   total_payments: اجمالي المدفوعات
+  permissions: أذونات
 pages:
   login: تسجيل الدخول
   peoples: الاشخاص |  شخص
@@ -102,8 +104,8 @@ pages:
   customers: العملاء| العميل
   owners: الملاك| المالك
   accounts: الحسابات| الحساب
-  users: المستخدمين| المستخدم
-  roles: الصلاحيات| الصلاحية
+  users: المستخدمين| مستخدم
+  roles: الصلاحيات | صلاحية
   realty_management: ادارة العقارات
   reservation_details: تفاصيل حجز وحدة سكنية
 titles:

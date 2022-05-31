@@ -6,12 +6,13 @@ meta:
 </route>
 <script setup lang="ts">
 import { useUserStore } from '../../stores/user'
+const { t } = useI18n()
 const cols = ['id', 'name', 'email', 'telephone', 'job', 'options']
 const columns = computed(() => cols.map((c) => {
   return {
     name: c,
     field: c,
-    label: c,
+    label: t('inputs.' + c),
     align: 'left',
   }
 }))
@@ -58,8 +59,8 @@ function saveUser() {
 <template lang="pug">
 d-page(@refresh="stu.fetchUsers()")
   template(#tools)
-    v-btn(color="success" @click="addUser()")
-      | Add user
+    q-btn(color="primary" icon="add" flat @click="addUser()" :label="t('button.add') + ' ' + t('pages.users', 2)")
+
   q-table(:filter-method="filterData" :filter="data.search" title="Users" flat :rows="stu.users" :columns="columns" row-key="id" :loading="stu.loading")
     template(#top-right)
       q-input(v-model="data.search" outlined dense type="text")
@@ -68,11 +69,13 @@ d-page(@refresh="stu.fetchUsers()")
           q-icon.clickable(name="refresh" @click="stu.fetchUsers()")
     template(#body-cell-options="props")
       td
-        v-btn(icon="mdi-pencil" variant="outlined" density="compact" color="primary" @click="editUser(props.row)")
-  d-dialog(v-model="stu.show_add_dialog" @save="saveUser()")
-    q-input(v-model="data.user.name" type="text" label="name")
-    q-input(v-model="data.user.email" type="text" label="email")
-    q-input(v-model="data.user.password" type="text" label="password")
-    q-input(v-model="data.user.telephone" type="text" label="telephone")
-    q-input(v-model="data.user.job" type="text" label="job")
+        q-btn(icon="mdi-eye" class="mx-1" size="sm" round color="positive" :to="$route.path + '/' + props.row.id")
+        q-btn(icon="mdi-pencil" round class="mx-1" size="sm" color="primary" @click="editUser(props.row)")
+
+  d-dialog(v-model="stu.show_add_dialog" @save="saveUser()" :title="t('button.add') + ' ' + t('pages.users', 2)")
+    q-input(v-model="data.user.name" type="text" :label="t('inputs.name')")
+    q-input(v-model="data.user.email" type="text" :label="t('inputs.email')")
+    q-input(v-model="data.user.password" type="text" :label="t('inputs.password')")
+    q-input(v-model="data.user.telephone" type="text" :label="t('inputs.telephone')")
+    q-input(v-model="data.user.job" type="text" :label="t('inputs.job')")
 </template>

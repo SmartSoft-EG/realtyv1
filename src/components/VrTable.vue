@@ -17,7 +17,7 @@
             </td>
         </tr>
     </table> -->
-    <div class="grid grid-cols-12 gap-2 sm:m-4">
+    <div class="grid grid-cols-12 gap-2 sm:m-4 sm:gap-x-12">
         <div class="col-span-12 sm:col-span-6" v-for="(h, i) in _headers" :key="i">
             <div class="flex">
 

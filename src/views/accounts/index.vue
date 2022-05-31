@@ -3,7 +3,7 @@
 meta:
  auth:
   roles: ['admin']
- group: 'accounts'
+ group: 'admin'
 </route>
 
 <script setup lang="ts">

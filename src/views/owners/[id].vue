@@ -51,13 +51,13 @@ function fetchDetails() {
 }
 
 function addTrans() {
-    axios.post('test', { type: 'debit', balance: 2000 });
+    axios.post('test', { type: 'debit', balance: 2000, account_id: owner.value.account.id });
 }
 </script>
 
 <template>
     <d-page @refresh="fetchOwner()"><template #tools>
-            <v-btn color="primary" @click="editCustomer()" v-text="'Edit owner'"></v-btn>
+            <q-btn color="primary" @click="editCustomer()" v-text="'Edit owner'"></q-btn>
             <el-button @click="addTrans">add transaction test</el-button>
             <el-date-picker class="bg-white" v-model="selected_range" type="datetimerange" range-separator="~"
                 start-placeholder="Start" end-placeholder="End" format="DD-MM-YYYY hh:mm:ss a" @change="fetchDetails" />

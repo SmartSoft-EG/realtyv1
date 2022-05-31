@@ -108,7 +108,7 @@ function deleteRealtyUnit(id: number) {
 <template lang="pug">
 d-page(@refresh="str.fetchRealty()")
     template(#tools)
-        q-btn(outlined color="primary" @click="addRealtyUnit" icon="add" :label="t('general.add') + ' ' + t('general.realty_units', 2)")
+        q-btn(flat color="primary" @click="addRealtyUnit" icon="add" :label="t('general.add') + ' ' + t('general.realty_units', 2)")
     q-table( :filter="search" :pagination="{ rowsPerPage: 10 }" flat :rows="stu.list" :columns="columns" row-key="id")
         template(#top-left)
             q-input(v-model="search" outlined dense type="text")

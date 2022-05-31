@@ -26,7 +26,7 @@ onMounted(() => {
 })
 
 function fetchCustomer() {
-    axios.get('customer/' + route.params.id).then(res => customer.value = res.data)
+    axios.get('people/' + route.params.id).then(res => customer.value = res.data)
 }
 
 // function editRealty() {

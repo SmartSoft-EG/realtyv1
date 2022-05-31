@@ -18,6 +18,10 @@
   },
   "inputs": {
     "value": "Value",
-    "date": "Date"
+    "date": "Date",
+    "permissions": "Permissions"
+  },
+  "button": {
+    "permissions": "Permisions"
   }
 }

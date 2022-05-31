@@ -1,11 +1,12 @@
-<script setup lang="ts">
-import * as dayjs from 'dayjs'
-onMounted(() => {
-})
 
-</script>
 <template>
 
-    {{ dayjs().format('dd-mm-yyyy') }}
-    <login-screen></login-screen>
+    <div class="flex flex-col items-center">
+
+        <h5>Realty Management App</h5>
+        <login-screen></login-screen>
+    </div>
+
+
+
 </template>

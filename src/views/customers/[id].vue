@@ -50,7 +50,7 @@ function editCustomer() {
 <template lang="pug">
 d-page(@refresh="fetchCustomer()")
     template(#tools)
-        v-btn(color="primary" @click="editCustomer()" v-text="'Edit customer'")
+        q-btn(color="primary" @click="editCustomer()" v-text="'Edit customer'")
     vr-table(:data="customer" :headers="['id', 'name', 'address', 'telephone', 'email', 'job']")
 
 //-   d-dialog(v-model="show_add_dialog" title="Add customer" @save="updateRealty()")
