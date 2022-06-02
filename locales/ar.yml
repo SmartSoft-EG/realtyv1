@@ -95,18 +95,21 @@ inputs:
   permissions: أذونات
 pages:
   login: تسجيل الدخول
-  peoples: الاشخاص |  شخص
+  peoples: الاشخاص | الشخص | اشخاص | شخص
   admin: المدير
-  realty: العقارات | عقار
-  realty_units: الوحدات السكنية| وحدة سكنية
+  realty: العقارات | العقار | عقارات | عقار
+  realty_units: الوحدات السكنية| الوحدة السكنتية | وحدات سكنية | وحدة سكنية
   realty_unit_detail: تفاصيل وحدة عقارية
-  reservations: الحجوزات| حجز
-  customers: العملاء| العميل
-  owners: الملاك| المالك
-  accounts: الحسابات| الحساب
-  users: المستخدمين| مستخدم
-  roles: الصلاحيات | صلاحية
+  reservations: الحجوزات | الحجز | حجوزات | حجز
+  customers: العملاء| العميل | عملاء | عميل
+  owners: الملاك | المالك | ملاك | مالك
+  accounts: الحسابات | الحساب | حسابات | حساب
+  users: المستخدمين | مستخدم |   نن
+  roles: الصلاحيات |  الصلاحية | صلاحيات | صلاحية
   realty_management: ادارة العقارات
   reservation_details: تفاصيل حجز وحدة سكنية
+  objects: |-
+    كائنات | 
+    كائن
 titles:
   add_reservation: إضافــة حجــز

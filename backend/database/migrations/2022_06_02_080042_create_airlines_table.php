@@ -13,17 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('airlines', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('telephone')->nullable();
-            $table->string('address')->nullable();
-            $table->string('national_id')->nullable();
-            $table->String('job')->nullable();
-            $table->float('balance')->default(0);
-            $table->string('balance_type', 20)->default('debit');
-
+            $table->string('start');
+            $table->string('destination');
+            $table->string('adult_seat_price');
+            $table->string('child_seat_price');
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('airlines');
     }
 };

@@ -21,13 +21,13 @@ class AccTransDetail extends Model
             $entry->update(['balance' => $entry->account->balance, 'balance_type' => $entry->account->balance_type]);
 
             //update related entry balance
-            $related = $entry->detailable;
-            if ($related) {
-                $related->increment('credit',  (float)$entry->credit);
-                $related->increment('debit',  (float)$entry->debit);
-                $related->updateBalance();
-                $entry->update(['related_balance' => $related->balance, 'balance_type' => $related->balance_type]);
-            }
+            // $related = $entry->detailable;
+            // if ($related) {
+            //     $related->increment('credit',  (float)$entry->credit);
+            //     $related->increment('debit',  (float)$entry->debit);
+            //     $related->updateBalance();
+            //     $entry->update(['related_balance' => $related->balance, 'balance_type' => $related->balance_type]);
+            // }
 
             $parent = $entry->account->parent;
             redo:
@@ -60,7 +60,7 @@ class AccTransDetail extends Model
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id');
+        return $this->belongsTo(AccAccount::class, 'acc_account_id');
     }
 
 
@@ -77,10 +77,10 @@ class AccTransDetail extends Model
         return $this->account->balance;
     }
 
-    public function detailable()
-    {
-        return $this->morphTo();
-    }
+    // public function detailable()
+    // {
+    //     return $this->morphTo();
+    // }
 
     public function transaction()
     {

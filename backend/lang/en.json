@@ -23,5 +23,8 @@
   },
   "button": {
     "permissions": "Permisions"
+  },
+  "pages": {
+    "objects": "Objects | Object"
   }
 }

@@ -12,6 +12,16 @@ const messages = Object.fromEntries(
       return [key.slice(14, yaml ? -5 : -4), value.default]
     }),
 )
+function customRule(choice, choicesLength) {
+
+  if (choice === 0) {
+    return 0
+  }
+
+  if (choice == 1 || choice == 3) return 0
+  else return 2
+
+}
 
 export const install = (app: any) => {
   const i18n = createI18n({
@@ -19,6 +29,9 @@ export const install = (app: any) => {
     missingWarn: false,
     legacy: false,
     locale: 'ar',
+    pluralizationRules: {
+      en: customRule
+    },
     messages,
   })
 

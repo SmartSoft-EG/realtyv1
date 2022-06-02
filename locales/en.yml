@@ -84,17 +84,17 @@ inputs:
 pages:
   login: Login
   realty_units: Realty Units | Realty Unit
-  realty_unit_detail: Realty Unit Details
-  peoples: Peoples | People
-  admin: Admin
-  realty: Realty
+  peoples: Peoples | People | Peoples | People
   reservations: Reservations | Reservation
   customers: Customers | Customer
   owners: Owners | Owner
   accounts: Accounts | Account
   users: Users | User
   roles: Roles | Role
+  realty_unit_detail: Realty Unit Details
   realty_management: Realty Management
   reservation_details: Reservation Details
+  admin: Admin
+  realty: Realty
 titles:
   add_reservation: Add Reservation

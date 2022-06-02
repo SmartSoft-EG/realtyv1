@@ -29,7 +29,7 @@ return new class extends Migration
             $table->float('commission')->default(0);
             $table->string('state', 40)->default('active');
             $table->foreign('realty_unit_id')->references('id')->on('realty_units')->onDelete('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('acc_objects')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

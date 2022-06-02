@@ -17,16 +17,13 @@ return new class extends Migration
         Schema::create('acc_trans_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('acc_transaction_id');
-            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('acc_account_id');
             $table->float('debit')->default(0);
             $table->float('credit')->default(0);
             $table->float('balance')->default(0);
             $table->string('balance_type', 20)->default('debit');
-            $table->nullableMorphs('detailable');
-            $table->float('related_balance')->default(0);
-            $table->string('related_balance_type', 20)->default('debit');
             $table->timestamps();
-            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('acc_account_id')->references('id')->on('acc_accounts');
             $table->foreign('acc_transaction_id')->references('id')->on('acc_transactions')->onDelete('cascade');
         });
 

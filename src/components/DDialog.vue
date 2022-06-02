@@ -31,12 +31,12 @@ q-dialog(v-model="model" persistent)
   q-card(:style="`width:${width}px;max-width:1500px;min-width:500px`" :dir="q.lang.rtl ? 'rtl' : 'ltr'")
     q-toolbar(class="bg-blue-gray-300")
       q-toolbar-title
-        span.text-weight-bold {{ title }}
+        |{{ title }}
       q-btn(v-close-popup flat round color="negative" dense icon="close")
     q-card-section
-      q-form.q-gutter-md(@submit.prevent='save')
+      q-form.q-gutter-lg(@submit.prevent='save')
         slot
         .flex.items-center.justify-center.gap-2
-          q-btn(:label="t('button.save')", type='submit', color='primary' icon="check")
+          q-btn(:label="t('button.save')", type='submit', color='primary' icon="save")
 
 </template>

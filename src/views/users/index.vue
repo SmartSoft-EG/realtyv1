@@ -59,7 +59,7 @@ function saveUser() {
 <template lang="pug">
 d-page(@refresh="stu.fetchUsers()")
   template(#tools)
-    q-btn(color="primary" icon="add" flat @click="addUser()" :label="t('button.add') + ' ' + t('pages.users', 2)")
+    q-btn(color="primary" icon="add" flat @click="addUser()" :label="t('button.add') + ' | ' + t('pages.users', 2)")
 
   q-table(:filter-method="filterData" :filter="data.search" title="Users" flat :rows="stu.users" :columns="columns" row-key="id" :loading="stu.loading")
     template(#top-right)

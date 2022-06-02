@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AccAccountController;
+use App\Http\Controllers\AccObjectController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccountOriginController;
 use App\Http\Controllers\AccTransactionController;
 use App\Http\Controllers\AccTransDetailController;
 use App\Http\Controllers\AuthController;
@@ -53,6 +56,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('user', UserController::class);
     Route::apiResource('role', RoleController::class);
     Route::apiResource('account', AccountController::class);
+    Route::apiResource('account-origin', AccountOriginController::class);
+    Route::apiResource('acc-account', AccAccountController::class);
+
     Route::apiResource('acc-transaction', AccTransactionController::class);
     Route::apiResource('acc-trans-detail', AccTransDetailController::class);
     Route::apiResource('realty', RealtyController::class);
@@ -60,6 +66,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('realty-unit-reservation', RealtyUnitReservationController::class);
     Route::apiResource('customer', CustomerController::class);
     Route::apiResource('people', PeopleController::class);
+    Route::apiResource('acc-object', AccObjectController::class);
 
     Route::apiResource('owner', OwnerController::class);
     Route::post('test', [AuthController::class, 'test']);

@@ -13,7 +13,7 @@ div
     q-btn(:icon="q.lang.rtl ? 'mdi-arrow-right' : 'mdi-arrow-left'" flat size="md" @click="$router.go(-1)" color="primary" class="px-2")
     q-btn(icon="mdi-reload" size="md" flat @click="$emit('refresh')" color="primary" class="px-2")
     slot(name="tools")
-  div(class="md:p-6 p-2")
+  div(class="md:p-6 md:ml-3 p-2")
     slot
 </template>
 
