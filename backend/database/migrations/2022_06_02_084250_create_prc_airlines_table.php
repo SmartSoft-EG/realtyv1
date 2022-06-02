@@ -25,7 +25,7 @@ return new class extends Migration
             $table->float('return_seat_price');
             $table->string('pnr');
             $table->timestamps();
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->foreign('supplier_id')->references('id')->on('acc_persons')->onDelete('cascade');
             $table->foreign('airline_id')->references('id')->on('airlines')->onDelete('cascade');
         });
     }

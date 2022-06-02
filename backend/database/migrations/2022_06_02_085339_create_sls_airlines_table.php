@@ -16,12 +16,15 @@ return new class extends Migration
         Schema::create('sls_airlines', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('prc_airline_id');
+            $table->unsignedBigInteger('prc_airline_id')->nullable();
+            $table->unsignedBigInteger('prc_hotel_id')->nullable();
+
             $table->Integer('seats_count');
             $table->string('state', 40)->default('active');
             $table->timestamps();
-            $table->foreign('customer_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('acc_persons')->onDelete('cascade');
             $table->foreign('prc_airline_id')->references('id')->on('prc_airlines')->onDelete('cascade');
+            $table->foreign('prc_hotel_id')->references('id')->on('prc_hotels')->onDelete('cascade');
         });
     }
 
