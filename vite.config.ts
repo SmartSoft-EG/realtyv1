@@ -2,11 +2,16 @@ import { fileURLToPath, URL } from "url";
 import path from 'path'
 
 import { defineConfig } from "vite";
+
+import pugPlugin from "vite-plugin-pug"
+import Unocss from 'unocss/vite'
+
+import extractorPug from '@unocss/extractor-pug'
+import { extractorSplit } from '@unocss/core'
 import vue from "@vitejs/plugin-vue";
 import Pages from "vite-plugin-pages";
 import Layouts from "vite-plugin-vue-layouts";
 import Components from "unplugin-vue-components/vite";
-import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import {
@@ -17,12 +22,13 @@ import {
 
 } from 'unplugin-vue-components/resolvers'
 
-import pugPlugin from 'vite-plugin-pug'
+
 //import { createStyleImportPlugin, AntdResolve, VantResolve } from 'vite-plugin-style-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    pugPlugin(),
     vue(),
     // createStyleImportPlugin({
     //   resolves: [AntdResolve(), VantResolve()],
@@ -31,7 +37,13 @@ export default defineConfig({
       pagesDir: 'src/views',
       extensions: ['vue', 'ts'],
     }),
-    Unocss(),
+    Unocss({
+      extractors: [
+        extractorPug(),
+        extractorSplit,
+      ],
+    }
+    ),
     Layouts({
       layoutsDir: 'src/layouts',
       defaultLayout: 'default'
@@ -64,7 +76,7 @@ export default defineConfig({
       include: [path.resolve(__dirname, 'locales/**')],
     }),
 
-    pugPlugin(),
+
 
   ],
 
